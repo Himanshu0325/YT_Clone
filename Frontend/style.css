@@ -1,0 +1,37 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#page1{
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(180, 239, 255);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.page2{
+  height: 100vh;
+  width: 100vw;
+  background-color: rgb(158, 210, 255);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.left{
+  height: 300px;
+  width: 300px;
+  background-color: aqua;
+}
+
+.right{
+  height: 300px;
+  width: 300px;
+  background-color: aqua;
+}
