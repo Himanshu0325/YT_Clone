@@ -1,3 +1,1 @@
-const DB = "YtClone"
-
-export {DB}
+export const DB = "YtClone"

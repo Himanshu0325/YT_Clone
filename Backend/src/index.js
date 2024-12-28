@@ -3,17 +3,26 @@ import dotenv from "dotenv"
 import { app  } from "./app.js";
 
 dotenv.config({
-  path: "../.env"
+  path: "./.env"
 })
 
 connectDB()
 .then( () => {
-  app.listen(process.env.PORT || 8000)
-  console.log(`Server is running at port : ${process.env.PORT || 8000}`)
+
+  app.on("err" , (err)=>{
+    console.log("ERRR: ", err);
+    throw error
+  })
+
+  app.listen(process.env.PORT || 8000 , ()=>{
+    console.log(`Server is running at port : ${process.env.PORT || 8000}`)
+  })
+  
 
   app.get("/" , (req , res)=>{
       res.send("Hello")
   })
+
 
   
 }
