@@ -1,1 +1,3 @@
-const DB_NAME= "YtClone"
+const DB = "YtClone"
+
+export {DB}
