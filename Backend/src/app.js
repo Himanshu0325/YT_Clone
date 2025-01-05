@@ -14,4 +14,14 @@ const app = express()
   app.use(express.static("Public"))
   app.use(cookieParser())
 
+
+  // Routes Import 
+     
+  import userRouter from "./Routes/user.route.js"
+
+
+  // routes declaration
+
+  app.use("/api/v1/users" , userRouter)
+
 export {app}
