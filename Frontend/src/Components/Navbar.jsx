@@ -55,11 +55,11 @@ const Navbar = () => {
             <NavItem href="/about">About</NavItem>
             <NavItem href="/services">Services</NavItem>
             <NavItem href="/contact">Contact</NavItem> */}
-            <ul className='text-2xl '>
+            <ul className='text-l flex gap-2 '>
 
               <li className='hover:text-gray-500'>
                 <NavLink className={({isActive})=>{
-                `${isActive ?"text-gray-700":"text-black"}`
+                `${isActive?"text-gray-700":"text-black"} hover:text-gray-800`
               }} to={"/"}>Home</NavLink>
               </li>
 

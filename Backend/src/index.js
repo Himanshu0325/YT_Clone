@@ -11,7 +11,7 @@ connectDB()
 
   app.on("err" , (err)=>{
     console.log("ERRR: ", err);
-    throw error
+    throw err
   })
 
   app.listen(process.env.PORT || 8000 , ()=>{

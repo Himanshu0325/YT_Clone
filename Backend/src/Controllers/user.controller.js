@@ -7,8 +7,8 @@ import { ApiResponse } from "../Utils/ApiResponse.js";
 const registerUser = asyncHandler( async (req , res ) => {
   
   //get user details from frontend
-  const {fullName , email , userName , password } = req.body
-  console.log('details : ',fullName,email,userName)
+  const {fullName , email , userName , password ,} = req.body
+  console.log('details : ',fullName,email,userName,req.body)
 
   //Validation
   if([fullName,email,userName,password].some((feild)=>{
@@ -18,6 +18,7 @@ const registerUser = asyncHandler( async (req , res ) => {
     throw new ApiError(400, 'All fields are required')
   }
 
+  //check if the user allready exist
   const existedUser = await User.findOne({
     $or : [{userName},{email}]
   })
@@ -25,7 +26,9 @@ const registerUser = asyncHandler( async (req , res ) => {
     throw new ApiError(409,'User allready exist')
   }
 
-  const avatarLocalPath = req.files?.avatar[0]?.path;
+  // console.log(req.files.avatar[0].path)
+  const avatarLocalPath = req.files?.avatar[0]?.path ;
+    //  const avatarLocalPath = "../Public/perm"
   const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
   if(!avatarLocalPath){
