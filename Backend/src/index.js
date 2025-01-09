@@ -23,8 +23,6 @@ connectDB()
       res.send("Hello")
   })
 
-
-  
 }
 )
 .catch((err) => {

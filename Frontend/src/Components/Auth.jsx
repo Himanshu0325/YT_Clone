@@ -18,28 +18,26 @@ export default function AnimatedAuth() {
     userName:"",
     email:"",
     password:"",
-    avatar:""
+    avatar:"",
+    coverImage:""
    })
+
+   const formData = new FormData()
+   formData.append("avatar", form.avatar);
+   formData.append("coverImage", form.coverImage);
+   formData.append("fullName",form.fullName)
+   formData.append("userName",form.userName)
+   formData.append("email",form.email)
+   formData.append("password",form.password)
+
   
-
-  // const submit = async (e) =>{
-  //   e.preventDefault()
-
-  //   try {
-  //     console.log(form)
-  //     await axios.post("http://localhost:4000/api/v1/users/register" ,{form})
-  //      
-  //     // console.log(form)
-  //   } catch (error) {
-  //     console.log("Data transfer failed",error)
-  //   }
-  // }
-
   const submit = async (e) => {
+    console.log("submited");
+    
     axios({
       method: 'post',
       url: 'http://localhost:4000/api/v1/users/register',
-      data: form
+      data: formData
     })
       .then(function (response) {
         console.log(response);
@@ -48,6 +46,11 @@ export default function AnimatedAuth() {
         console.log("data transfer failed",error);
       });
   }   
+
+  const verify = async ()=>{
+      console.log("i am verify");
+      
+  }
 
   // const handleOnChange = (e) =>{
   //   setForm({...from , avatar: e.target.files[0]})}
@@ -134,8 +137,8 @@ export default function AnimatedAuth() {
               name="avatar"
               type="file"
               accept="image/*"
-              // onChange={(e) =>{
-              //   setForm({...form , avatar: e.target.files[0]}), console.log(e.target.files[0]) }}
+              onChange={(e) =>{
+                setForm({...form , avatar: e.target.files[0]}), console.log(e.target.files[0]), console.log(e.target) }}
               // onChange={async (e)=>{await axios.post("http://localhost:4000/api/v1/users/register" ,{avatar : e.target.files[0]})}}
             />
           </div>
@@ -146,8 +149,8 @@ export default function AnimatedAuth() {
               name="coverImage"
               type="file"
               accept="image/*"
-              // onChange={(e) =>{
-              //   setForm({...form , coverImage: e.target.files[0]}), console.log(e.target.files[0]) }}
+              onChange={(e) =>{
+                setForm({...form , coverImage: e.target.files[0]}), console.log(e.target.files[0]) }}
               // onChange={async (e)=>{await axios.post("http://localhost:4000/api/v1/users/register" ,{coverImage : e.target.files[0]})}}
             />
           </div>
@@ -171,9 +174,8 @@ export default function AnimatedAuth() {
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 
             onClick={submit}
-          >
-            {isLogin ? 'Login' : 'Sign Up'}
-            
+            > 
+              {isLogin ? 'Login' : 'Sign Up'}
           </button>
         </motion.form>
         <motion.p
