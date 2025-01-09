@@ -32,8 +32,6 @@ export default function AnimatedAuth() {
 
   
   const submit = async (e) => {
-    console.log("submited");
-    
     axios({
       method: 'post',
       url: 'http://localhost:4000/api/v1/users/register',
@@ -48,14 +46,8 @@ export default function AnimatedAuth() {
   }   
 
   const verify = async ()=>{
-      console.log("i am verify");
-      
+    
   }
-
-  // const handleOnChange = (e) =>{
-  //   setForm({...from , avatar: e.target.files[0]})}
-
-  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -173,7 +165,7 @@ export default function AnimatedAuth() {
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 
-            onClick={submit}
+            onClick={isLogin ? verify : submit}
             > 
               {isLogin ? 'Login' : 'Sign Up'}
           </button>
