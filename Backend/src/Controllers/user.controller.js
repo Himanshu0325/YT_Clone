@@ -45,9 +45,7 @@ const registerUser = asyncHandler( async (req , res ) => {
     throw new ApiError(409,'User allready exist')
   }
 
-  // console.log(req.files.avatar[0].path)
   const avatarLocalPath = req.files?.avatar[0]?.path ;
-    //  const avatarLocalPath = "../Public/perm"
   // const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
   let coverImageLocalPath;
@@ -97,10 +95,14 @@ const verifyUser = asyncHandler(async (req , res )=>{
 
   //fetch data from req body 
   const {password , email  } = req.body
+  console.log(req.body,email,password)
 
   //username or email
   if (!email) {
     throw new ApiError(400,"Email is required")
+  }else{
+    console.log(email);
+    
   }
 
   //find the user
@@ -138,7 +140,9 @@ const verifyUser = asyncHandler(async (req , res )=>{
         user: loggedInUser, accessToken, refreshToken
       },
       "User logged in Successfully"
-    )
+    ),
+    console.log("User logged in Successfully")
+    
    )
 
 })
@@ -156,4 +160,8 @@ const logoutUser = asyncHandler(async (req , res)=>{
 
 
 
-export { registerUser}
+export {
+   registerUser,
+   verifyUser
+
+}

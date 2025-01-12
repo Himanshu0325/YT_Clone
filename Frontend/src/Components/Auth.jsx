@@ -30,6 +30,10 @@ export default function AnimatedAuth() {
    formData.append("email",form.email)
    formData.append("password",form.password)
 
+   const loginData = new FormData()
+   loginData.append("email",form.email)
+   loginData.append("password",form.password)
+
   
   const submit = async (e) => {
     axios({
@@ -45,8 +49,18 @@ export default function AnimatedAuth() {
       });
   }   
 
-  const verify = async ()=>{
-    
+  const verify = async (e) => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:4000/api/v1/users/login',
+      data: loginData
+    })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log("data transfer failed",error);
+      });
   }
 
   return (
@@ -117,7 +131,8 @@ export default function AnimatedAuth() {
               name="email"
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              onChange={(e)=> setForm({...form , email:e.target.value})}
+              onChange={(e)=> {setForm({...form , email:e.target.value})
+              }}
             />
           </div>
           {!isLogin && (
@@ -130,8 +145,7 @@ export default function AnimatedAuth() {
               type="file"
               accept="image/*"
               onChange={(e) =>{
-                setForm({...form , avatar: e.target.files[0]}), console.log(e.target.files[0]), console.log(e.target) }}
-              // onChange={async (e)=>{await axios.post("http://localhost:4000/api/v1/users/register" ,{avatar : e.target.files[0]})}}
+                setForm({...form , avatar: e.target.files[0]})}}
             />
           </div>
           <div>
@@ -142,8 +156,7 @@ export default function AnimatedAuth() {
               type="file"
               accept="image/*"
               onChange={(e) =>{
-                setForm({...form , coverImage: e.target.files[0]}), console.log(e.target.files[0]) }}
-              // onChange={async (e)=>{await axios.post("http://localhost:4000/api/v1/users/register" ,{coverImage : e.target.files[0]})}}
+                setForm({...form , coverImage: e.target.files[0]})}}
             />
           </div>
             </>
