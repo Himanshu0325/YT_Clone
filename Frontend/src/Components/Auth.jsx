@@ -1,4 +1,3 @@
-
 import { useState , useRef } from 'react'
 import { motion } from 'framer-motion'
 import axios from "axios"
@@ -10,62 +9,59 @@ export default function AnimatedAuth() {
     setIsLogin(!isLogin)
   }
 
-  // const profilePictureRef = useRef<HTMLInputElement>(null)
-  // const coverPictureRef = useRef<HTMLInputElement>(null)
-
   const [form , setForm] = useState({
     fullName : "",
     userName:"",
     email:"",
     password:"",
     avatar:"",
-    coverImage:""
+    coverImage:"",
    })
 
-   const formData = new FormData()
-   formData.append("avatar", form.avatar);
-   formData.append("coverImage", form.coverImage);
-   formData.append("fullName",form.fullName)
-   formData.append("userName",form.userName)
-   formData.append("email",form.email)
-   formData.append("password",form.password)
-
-   const loginData = new FormData()
-   loginData.append("email",form.email)
-   loginData.append("password",form.password)
-
-  
   const submit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("avatar", form.avatar);
+    formData.append("coverImage", form.coverImage);
+    formData.append("fullName", form.fullName);
+    formData.append("userName", form.userName);
+    formData.append("email", form.email);
+    formData.append("password", form.password);
+
     axios({
       method: 'post',
       url: 'http://localhost:4000/api/v1/users/register',
-      data: formData
+      data: formData,
+      headers: { 'Content-Type': 'multipart/form-data' }
     })
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
-        console.log("data transfer failed",error);
+        console.log("data transfer failed", error);
       });
-  }   
+  };
 
   const verify = async (e) => {
+    e.preventDefault();
     axios({
       method: 'post',
       url: 'http://localhost:4000/api/v1/users/login',
-      data: loginData
+      data: {
+        email: form.email,
+        password: form.password
+      }
     })
       .then(function (response) {
         console.log(response);
       })
       .catch(function (error) {
-        console.log("data transfer failed",error);
+        console.log("data transfer failed", error);
       });
-  }
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      {/* <form action="POST"> */}
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -87,7 +83,7 @@ export default function AnimatedAuth() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="space-y-4"
-          // onSubmit={POST}
+          onSubmit={isLogin ? verify : submit}
         >
           {!isLogin && (
             <div>
@@ -171,7 +167,9 @@ export default function AnimatedAuth() {
               name="password"
               required 
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              onChange={(e)=> setForm({...form , password:e.target.value})}
+              onChange={(e)=> {setForm({...form , password:e.target.value}),
+              console.log(form)}
+              }
             />
           </div>
           <button
@@ -199,7 +197,6 @@ export default function AnimatedAuth() {
           </button>
         </motion.p>
       </motion.div>
-      {/* </form> */}
     </div>
   )
 }

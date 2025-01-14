@@ -8,9 +8,12 @@ const NavItem = ({ href, children }) => (
   </a>
 );
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const [profileImg , setProfileImg]  = useState('/assets.')
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const toggleUserOptions = props.toggleUserOptions
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -51,10 +54,6 @@ const Navbar = () => {
           </div>
 
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            {/* <NavItem href="/" children='Home'></NavItem>
-            <NavItem href="/about">About</NavItem>
-            <NavItem href="/services">Services</NavItem>
-            <NavItem href="/contact">Contact</NavItem> */}
             <ul className='text-l flex gap-2 '>
 
               <li className='hover:text-gray-500'>
@@ -67,7 +66,9 @@ const Navbar = () => {
               <li className='hover:text-gray-500'>
                 <NavLink className={({isActive})=>{
                 `${isActive?"text-gray-700":"text-black"}`
-              }} to={"/Register"}>Login</NavLink>
+              }} onClick={toggleUserOptions}>
+                <img className='h-[2rem] w-[2rem] ' src={profileImg} alt="" />
+              </NavLink>
               </li>
 
 
