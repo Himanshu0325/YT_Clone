@@ -9,7 +9,7 @@ import axios from 'axios'
 
 function App() {
 
-
+  const [loginButton , setLoginButton] = useState(false)
   const [isOpen, setIsOpen] = useState(true)
   const [isUserOpen , setIsUserOpen ] = useState(false)
 
@@ -27,12 +27,12 @@ function App() {
     .then((res)=>{
      const response = res.data
       console.log(res.data);
-      let loginButton = null
       if (response.code === 420) {
-        loginButton = false
+        setLoginButton(!loginButton)
       }else{
-        loginButton= true
+        setLoginButton(loginButton)
       }
+      console.log(loginButton);
       
     })
   }
