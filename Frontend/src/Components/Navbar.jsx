@@ -54,7 +54,7 @@ const Navbar = (props) => {
           </div>
 
           <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <ul className='text-l flex gap-2 '>
+            <ul className='text-l flex gap-4 '>
 
               <li className='hover:text-gray-500'>
                 <NavLink className={({isActive})=>{
@@ -63,10 +63,8 @@ const Navbar = (props) => {
               </li>
 
 
-              <li className='hover:text-gray-500'>
-                <NavLink className={({isActive})=>{
-                `${isActive?"text-gray-700":"text-black"}`
-              }} onClick={toggleUserOptions}>
+              <li className=''>
+                <NavLink className={``} onClick={toggleUserOptions}>
                 <img className='h-[2rem] w-[2rem] ' src={profileImg} alt="" />
               </NavLink>
               </li>

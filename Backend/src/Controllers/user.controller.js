@@ -7,8 +7,10 @@ import { ApiResponse } from "../Utils/ApiResponse.js";
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
-    const accessToken = user.generateAccessToken();
-    const refreshToken = user.generateRefreshToken();
+    const accessToken = await user.generateAccessToken().then((res)=> {return res });
+    const refreshToken = await user.generateRefreshToken().then((res)=> {return res });
+    console.log(accessToken,refreshToken);
+    
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
@@ -92,12 +94,14 @@ const verifyUser = asyncHandler(async (req, res) => {
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
+  console.log('Generated tokens:', { accessToken, refreshToken });
 
   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
   const options = {
     httpOnly: true,
     secure: true,
+    Credential:true
   };
   return res
     .status(200)

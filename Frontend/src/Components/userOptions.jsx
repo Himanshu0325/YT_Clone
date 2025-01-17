@@ -5,6 +5,7 @@ export default function UserOptions(props){
 
   const isUserOpen = props.isUserOpen
   const loginButton = props.loginButton
+  const toggleUserOptions = props.toggleUserOptions
 
   // const getUserProfile = async () => {
   //   await axios.get('http://localhost:4000/api/v1/users/profile')
@@ -18,7 +19,14 @@ export default function UserOptions(props){
     
     return (<>
       <div className={ `w-[20%] h-[25%] bg-white absolute top-16 right-4 rounded-md ${isUserOpen?"visible":"hidden"}`}>
-        <button>Log in</button>
+        
+        <NavLink className={({ isActive }) => {
+                `${isActive ? "text-gray-700" : "text-black"}`
+              }} to={"/register"}>
+                <button className="py-2 px-4 bg-blue-300 rounded-lg" onClick={toggleUserOptions}>
+                  Login
+                </button>
+              </NavLink>
       </div>
     </>)
   } else {
@@ -32,12 +40,12 @@ export default function UserOptions(props){
           <h2>Username</h2>
         </div>
         <div className="w-full text-center ">
-          <ul>
+          <ul >
             <li>
               <NavLink className={({ isActive }) => {
                 `${isActive ? "text-gray-700" : "text-black"}`
-              }} to={"/register"}>
-                <img className='h-[2rem] w-[2rem] ' src="" alt="Login" />
+              }} to={"/"}>
+                <img className='h-[2rem] w-[2rem] ' src="" alt="Logout" />
               </NavLink>
 
             </li>

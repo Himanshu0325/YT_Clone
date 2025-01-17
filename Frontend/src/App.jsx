@@ -55,7 +55,7 @@ function App() {
           <Navbar toggleUserOptions={toggleUserOptions}/>
           <Outlet/>
 
-          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton}/>
+          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions}  />
         </div>
 
       </div>
