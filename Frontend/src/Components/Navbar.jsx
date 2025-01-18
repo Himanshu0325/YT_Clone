@@ -21,6 +21,7 @@ const Navbar = (props) => {
     console.log('Search query:', searchQuery);
   };
 
+  
   return (
     <nav className="bg-white shadow-lg">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">

@@ -5,10 +5,13 @@ import { Outlet } from 'react-router-dom'
 import SideNavbar from './Components/sideNavbar'
 import UserOptions from './Components/userOptions'
 import axios from 'axios'
+import {Cookies} from "react-cookie"
 
 
 function App() {
 
+  // cookies: instanceOf(Cookies).isRequired
+  const cookies = new Cookies();
   const [loginButton , setLoginButton] = useState(false)
   const [isOpen, setIsOpen] = useState(true)
   const [isUserOpen , setIsUserOpen ] = useState(false)
@@ -23,25 +26,38 @@ function App() {
   };
 
   const getUserProfile = async () => {
-    await axios.get('http://localhost:4000/api/v1/users/profile')
-    .then((res)=>{
-     const response = res.data
-      console.log(res.data);
-      if (response.code === 420) {
-        setLoginButton(!loginButton)
-      }else{
-        setLoginButton(loginButton)
-      }
-      console.log(loginButton);
+    // await axios.get('http://localhost:4000/api/v1/users/profile')
+    // .then((res)=>{
+    //  const response = res.data
+    //   console.log(res.data);
+    //   if (response.code === 420) {
+    //     setLoginButton(!loginButton)
+    //   }else{
+    //     setLoginButton(loginButton)
+    //   }
+    //   console.log(loginButton);
       
-    })
+    // })
+    const token = cookies.get('accessToken')
+    console.log("token:",!token);
+    
+    if (!token) {
+      setLoginButton(!loginButton)
+    } else {
+      setLoginButton(loginButton)
+    }
+    console.log(loginButton);
   }
+
+
+  
   useEffect(() => {
     //used this to ensure getUserProfile function does not run evry time a function is render
-    let ignore = false;
+    // if(isUserOpen){
+    //   getUserProfile()
+    // // }
+    getUserProfile()
     
-    if (!ignore)  getUserProfile()
-    return () => { ignore = true; }
     },[]);
 
   return (

@@ -1,9 +1,12 @@
 import { useState , useRef } from 'react'
 import { motion } from 'framer-motion'
 import axios from "axios"
+import {useCookies} from "react-cookie"
+import getUserProfile from '../Api/getUsersProfile.js'
 
 export default function AnimatedAuth() {
   const [isLogin, setIsLogin] = useState(true)
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
   const toggleForm = () => {
     setIsLogin(!isLogin)
@@ -52,13 +55,33 @@ export default function AnimatedAuth() {
         password: form.password
       }
     })
-      .then(function (response) {
-        console.log(response);
+      .then(function (res) {
+        // const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
+        const accessToken = res.data.data[0];
+        const refreshToken = res.data.data[1];
+
+        setCookie('accessToken', accessToken, { path: '/' });
+        setCookie('refreshToken', refreshToken, { path: '/' });
       })
       .catch(function (error) {
         console.log("data transfer failed", error);
       });
+      getUserProfile()
   };
+
+  // const verifyUser = async (req , res) => {
+
+  //   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
+  //   verify
+  //   accessToken = res.data[0];
+  //   refreshToken = res.data[1];
+
+  //   setCookie('accessToken', accessToken, { path: '/' });
+  //   setCookie('refreshToken', refreshToken, { path: '/' });
+
+  // }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -167,8 +190,7 @@ export default function AnimatedAuth() {
               name="password"
               required 
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              onChange={(e)=> {setForm({...form , password:e.target.value}),
-              console.log(form)}
+              onChange={(e)=> {setForm({...form , password:e.target.value})}
               }
             />
           </div>

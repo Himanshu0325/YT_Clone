@@ -103,15 +103,22 @@ const verifyUser = asyncHandler(async (req, res) => {
     secure: true,
     Credential:true
   };
-  return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User logged in successfully"),
-      console.log('User logged in successfully')
+  // return res
+  //   .status(200)
+  //   .cookie("accessToken", accessToken, options)
+  //   .cookie("refreshToken", refreshToken, options)
+  //   .json(
+  //     new ApiResponse(200, { user: loggedInUser, accessToken, refreshToken }, "User logged in successfully"),
+  //     console.log('User logged in successfully')
       
-    );
+  //   );
+  return res.send({
+    status: 200,
+    message: "User logged in successfully",
+    code: 200,
+    data: [accessToken, refreshToken ],
+  })
+  
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
