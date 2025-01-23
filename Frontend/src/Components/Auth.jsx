@@ -56,7 +56,7 @@ export default function AnimatedAuth() {
       }
     })
       .then(function (res) {
-        // const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+        
 
         const accessToken = res.data.data[0];
         const refreshToken = res.data.data[1];
@@ -67,21 +67,10 @@ export default function AnimatedAuth() {
       .catch(function (error) {
         console.log("data transfer failed", error);
       });
-      getUserProfile()
+      // getUserProfile()  unable to get value of setLoginButton
   };
 
-  // const verifyUser = async (req , res) => {
-
-  //   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
-
-  //   verify
-  //   accessToken = res.data[0];
-  //   refreshToken = res.data[1];
-
-  //   setCookie('accessToken', accessToken, { path: '/' });
-  //   setCookie('refreshToken', refreshToken, { path: '/' });
-
-  // }
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

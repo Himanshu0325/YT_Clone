@@ -1,23 +1,30 @@
-export default async function getUserProfile  () {
-  // await axios.get('http://localhost:4000/api/v1/users/profile')
-  // .then((res)=>{
-  //  const response = res.data
-  //   console.log(res.data);
-  //   if (response.code === 420) {
-  //     setLoginButton(!loginButton)
-  //   }else{
-  //     setLoginButton(loginButton)
-  //   }
-  //   console.log(loginButton);
+import axios from "axios";
+import { Cookies } from "react-cookie";
+import togglesetLoginButton from "../App.jsx";
+
+const getUserProfileData = async (e) => {
+  // e.preventDefault();
+
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
+
+  try {
+    const response = await axios({
+      method: 'post',
+      url: 'http://localhost:4000/api/v1/users/profile',
+      data: {
+        accessToken: accessToken,
+      },
+    });
+    const res = response.data
+    const {username, fullname , avatar } = res
+    console.log(res,username,fullname);
+    console.log("getuserdata per hu");
     
-  // })
-  const token = cookies.get('accessToken')
-  console.log("token:",!token);
-  
-  if (!token) {
-    setLoginButton(!loginButton)
-  } else {
-    setLoginButton(loginButton)
+    return {username , fullname , avatar};
+  } catch (error) {
+    console.error('Error fetching user profile data:', error);
+    throw error;
   }
-  console.log(loginButton);
 }
+export default getUserProfileData

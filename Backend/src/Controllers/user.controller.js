@@ -3,6 +3,7 @@ import { ApiError } from "../Utils/ApiError.js";
 import { User } from "../Models/user.model.js";
 import { uploadOnCloudinary } from "../Utils/Cloudinary.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
+import jwt from "jsonwebtoken"
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
@@ -96,7 +97,7 @@ const verifyUser = asyncHandler(async (req, res) => {
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
   console.log('Generated tokens:', { accessToken, refreshToken });
 
-  const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+  const loggedInUser = await User.findById(user._id).select("-password ");
 
   const options = {
     httpOnly: true,
@@ -116,7 +117,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     status: 200,
     message: "User logged in successfully",
     code: 200,
-    data: [accessToken, refreshToken ],
+    data: [accessToken, refreshToken,loggedInUser ],
   })
   
 });
@@ -147,24 +148,24 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
-  const token = req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
-    if (!token) {
+  const{ accessToken }= req.body;
+    if (!accessToken) {
       return res.json({
         status: 401,
         message: "Unauthorized request",
         code:420,
       });
     }
-    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
     if (!user) {
       return res.json({
         status: 401,
-        message: "invalid access token"
+        message: "invalid access token ! User not Found"
       });
     }
 
-    return res.json.stringify({
+    return res.send({
       avatar: user.avatar,
       fullname: user.fullname,
       username: user.username,

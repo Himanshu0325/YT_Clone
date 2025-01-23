@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Link , NavLink } from 'react-router-dom';
+import getUserProfileData from '../Api/getUsersProfile';
 
 const NavItem = ({ href, children }) => (
   <a href={href} className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">
@@ -12,6 +13,7 @@ const Navbar = (props) => {
   const [profileImg , setProfileImg]  = useState('/assets.')
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const loginButton = props.loginButton
 
   const toggleUserOptions = props.toggleUserOptions
 
@@ -20,6 +22,18 @@ const Navbar = (props) => {
     // Implement search functionality here
     console.log('Search query:', searchQuery);
   };
+
+  // const isUserOpen = props.isUserOpen
+  const[avatar, setavatar] = useState("")
+
+  const data = async() =>{
+    const profileData = await getUserProfileData();
+    const { avatar} = profileData;
+    setavatar(avatar)
+  }
+  useEffect(() => {
+    data()
+  }, []);
 
   
   return (
@@ -64,11 +78,18 @@ const Navbar = (props) => {
               </li>
 
 
+              {loginButton?
               <li className=''>
+              <NavLink className={``} to={"/register"}>
+              <img className='h-[2rem] w-[2rem] ' src="" alt="" />
+            </NavLink>
+            </li> 
+            : 
+            <li className=''>
                 <NavLink className={``} onClick={toggleUserOptions}>
-                <img className='h-[2rem] w-[2rem] ' src={profileImg} alt="" />
+                <img className='h-[2rem] w-[2rem] ' src={avatar} alt="" />
               </NavLink>
-              </li>
+              </li>}
 
 
               {/* <li className='hover:text-gray-500'>

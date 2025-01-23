@@ -23,6 +23,6 @@ router.route("/login").post(verifyUser);
 
 router.route("/logout").post(verifyJWT,  logoutUser)
 
-router.route("/profile").get(getUserProfile)
+router.route("/profile").post(getUserProfile)
 
 export default router;

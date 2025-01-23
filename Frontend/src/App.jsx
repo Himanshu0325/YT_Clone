@@ -6,6 +6,9 @@ import SideNavbar from './Components/sideNavbar'
 import UserOptions from './Components/userOptions'
 import axios from 'axios'
 import {Cookies} from "react-cookie"
+import getUserProfileData from './Api/getUsersProfile.js'
+
+
 
 
 function App() {
@@ -25,19 +28,10 @@ function App() {
     console.log(isUserOpen);
   };
 
+ 
+
   const getUserProfile = async () => {
-    // await axios.get('http://localhost:4000/api/v1/users/profile')
-    // .then((res)=>{
-    //  const response = res.data
-    //   console.log(res.data);
-    //   if (response.code === 420) {
-    //     setLoginButton(!loginButton)
-    //   }else{
-    //     setLoginButton(loginButton)
-    //   }
-    //   console.log(loginButton);
-      
-    // })
+    
     const token = cookies.get('accessToken')
     console.log("token:",!token);
     
@@ -46,6 +40,8 @@ function App() {
     } else {
       setLoginButton(loginButton)
     }
+
+    getUserProfileData()
     console.log(loginButton);
   }
 
@@ -60,6 +56,7 @@ function App() {
     
     },[]);
 
+
   return (
     <>
       <div className="w-[100vw] h-[100vh] flex overflow-hidden ">
@@ -68,7 +65,7 @@ function App() {
           <SideNavbar isOpen={isOpen}  />
         </div>
         <div className={`${isOpen?"w-[85%]":"w-[95%]"} h-full transition-[width] duration-[500ms]`}>
-          <Navbar toggleUserOptions={toggleUserOptions}/>
+          <Navbar toggleUserOptions={toggleUserOptions} loginButton={loginButton} isUserOpen={isUserOpen}/>
           <Outlet/>
 
           <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions}  />
