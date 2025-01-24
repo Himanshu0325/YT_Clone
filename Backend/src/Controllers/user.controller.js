@@ -183,9 +183,70 @@ const getUserProfile = asyncHandler(async (req, res) => {
   });
 });
 
+const changeCurrentPassword = asyncHandler(async (req , res)=>{
+  const {oldPassword , newPassword} = req.body
+
+  const user  = await User.findById(req.user?._id)
+  const isPasswordCorrect = user.isPasswordCorrect(oldPassword)
+
+  if (!isPasswordCorrect) {
+    return res
+    .status(400)
+    .send({
+      message : "Oncorrect old Password",
+      code:400,
+    })
+  }
+
+  user.password = newPassword
+  await user.save({validateBeforeSave:false})
+
+  return res
+    .status(200)
+    .send({
+      message : "Password updated successfully",
+      code:200,
+    })
+})
+
+const updateAccountDetails = async (req , res)=>{
+  const {email , fullname} = req.body
+
+  if (!fullname || !email) {
+    return res
+    .status(400)
+    .send({
+      message : "All Feilds are required",
+      code:400,
+    })
+  }
+
+  const user = User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $set:{
+        fullname,
+        email:email
+      }
+    },
+    {
+      new:true
+    }
+  ).select("-password")
+
+  return res
+    .status(200)
+    .send({
+      message : "Account details updated Successfully",
+      code:200,
+    })
+}
+
 export {
   registerUser,
   verifyUser,
   logoutUser,
   getUserProfile,
+  changeCurrentPassword,
+  updateAccountDetails,
 };
