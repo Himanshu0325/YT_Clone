@@ -1,3 +1,5 @@
+//we are sending access token from frontend to backend and asking backend for user data and error message if error  ocured
+
 import axios from "axios";
 import { Cookies } from "react-cookie";
 import togglesetLoginButton from "../App.jsx";
@@ -17,11 +19,9 @@ const getUserProfileData = async (e) => {
       },
     });
     const res = response.data
-    const {username, fullname , avatar } = res
-    console.log(res,username,fullname);
-    console.log("getuserdata per hu");
+    const {username, fullname , avatar , message } = res
     
-    return {username , fullname , avatar};
+    return {username , fullname , avatar , message};
   } catch (error) {
     console.error('Error fetching user profile data:', error);
     throw error;

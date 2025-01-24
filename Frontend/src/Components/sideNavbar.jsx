@@ -3,11 +3,11 @@ import { Link, NavLink , useLocation } from 'react-router-dom';
 
 
 // You can replace these with actual icon components if you prefer
-const HomeIcon = () => <span>🏠</span>;
-const watchHistory = () => <span>📄</span>;
-const SettingsIcon = () => <span>⚙️</span>;
-const HelpIcon = () => <span>❓</span>;
-const MenuIcon = () => <span>☰</span>;
+const HomeIcon = () => { return <span>🏠</span>;}
+const watchHistory = () => { return <span>📄</span>;}
+const SettingsIcon = () => { return <span>⚙️</span>;}
+const HelpIcon = () => { return <span>❓</span>;}
+const MenuIcon = () => { return <span>☰</span>;}
 
 const navItems = [
   { icon: HomeIcon, label: 'Home', path: '/' },
@@ -42,7 +42,8 @@ function SideNavbar(props) {
               } else {
                 return <li>
                   <NavLink className={`text-black text-xl font-serif ml-4 gap-2 `} to={item.path} key={id} >
-                    {`${item.label}`}
+                    {item.icon}
+                    {item.label}
                   </NavLink>
                 </li>
               }

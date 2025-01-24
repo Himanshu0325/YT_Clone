@@ -10,7 +10,6 @@ const generateAccessAndRefereshTokens = async (userId) => {
     const user = await User.findById(userId);
     const accessToken = await user.generateAccessToken().then((res)=> {return res });
     const refreshToken = await user.generateRefreshToken().then((res)=> {return res });
-    console.log(accessToken,refreshToken);
     
 
     user.refreshToken = refreshToken;
@@ -76,7 +75,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const verifyUser = asyncHandler(async (req, res) => {
   const { password, email } = req.body;
-  console.log(req.body, email, password);
 
   if (!email) {
     throw new ApiError(400, "Email is required");
@@ -85,17 +83,28 @@ const verifyUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw new ApiError(400, "User not found");
+    // throw new ApiError(400, "User not found");
+    return res.send({
+      message : "User not found with given Email",
+      code:400,
+    })
+    .status(400)
   }
 
   const isPasswordValid = await user.isPasswordCorrect(password);
 
   if (!isPasswordValid) {
-    throw new ApiError(400, "Incorrect password");
+    // throw new ApiError(400, "Incorrect password")
+    return res.send({
+      message : "Incorrect Password Entered",
+      code:400,
+    })
+    .status(400)
+    //Unauthorized request
+    
   }
 
   const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
-  console.log('Generated tokens:', { accessToken, refreshToken });
 
   const loggedInUser = await User.findById(user._id).select("-password ");
 
@@ -104,7 +113,7 @@ const verifyUser = asyncHandler(async (req, res) => {
     secure: true,
     Credential:true
   };
-  // return res
+  // return res [cookie parser wala code hai]
   //   .status(200)
   //   .cookie("accessToken", accessToken, options)
   //   .cookie("refreshToken", refreshToken, options)

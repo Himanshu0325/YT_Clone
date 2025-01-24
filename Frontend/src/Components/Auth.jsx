@@ -1,17 +1,14 @@
-import { useState , useRef } from 'react'
+import { useState , useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import axios from "axios"
 import {useCookies} from "react-cookie"
-import getUserProfile from '../Api/getUsersProfile.js'
+import getUserProfileData from '../Api/getUsersProfile.js'
 
 export default function AnimatedAuth() {
   const [isLogin, setIsLogin] = useState(true)
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
-
-  const toggleForm = () => {
-    setIsLogin(!isLogin)
-  }
-
+  const[message, setMessage] = useState("")
+  const [errorBox , setErrorBox] = useState(false)
   const [form , setForm] = useState({
     fullName : "",
     userName:"",
@@ -20,6 +17,11 @@ export default function AnimatedAuth() {
     avatar:"",
     coverImage:"",
    })
+
+
+   const toggleForm = () => {
+    setIsLogin(!isLogin)
+  }
 
   const submit = async (e) => {
     e.preventDefault();
@@ -57,20 +59,43 @@ export default function AnimatedAuth() {
     })
       .then(function (res) {
         
+        const code = res.data.code
 
-        const accessToken = res.data.data[0];
+        if (code===200) {
+          const accessToken = res.data.data[0];
         const refreshToken = res.data.data[1];
+        const status = res.data.code
+        console.log(status);
+        
 
         setCookie('accessToken', accessToken, { path: '/' });
         setCookie('refreshToken', refreshToken, { path: '/' });
+        location.reload()
+        location.assign("http://localhost:5173/")
+        }else{
+          const data = async ()=>{
+            const message = res.data.message;
+            setErrorBox(true)
+            setMessage(message)
+          }
+          data()
+        }
+        
       })
       .catch(function (error) {
         console.log("data transfer failed", error);
       });
-      // getUserProfile()  unable to get value of setLoginButton
+       
   };
 
   
+  
+
+  // const data = async ()=>{
+  //   const profileData = await getUserProfileData();
+  //   const { Message} = profileData;
+  //   setMessage(Message)
+  // }
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -208,6 +233,18 @@ export default function AnimatedAuth() {
           </button>
         </motion.p>
       </motion.div>
+
+
+        {/* block which are hidden genarly  */}
+
+      <div className= {`h-[30%] w-[30%] bg-white absolute ${errorBox?"visible":"hidden"} flex justify-evenly items-center flex-col border border-black rounded-lg shadow-xl`} >
+        <p className='text-xl font-medium'>{message}</p>
+        <button className='flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' onClick={()=>{
+          setErrorBox(!errorBox)
+        }}>
+          Try Again
+        </button>
+      </div>
     </div>
   )
 }

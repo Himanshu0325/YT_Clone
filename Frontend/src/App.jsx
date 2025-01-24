@@ -25,10 +25,9 @@ function App() {
 
   const toggleUserOptions = () => {
     setIsUserOpen(!isUserOpen);
-    console.log(isUserOpen);
+    console.log(isUserOpen,'app.jsx');
   };
 
- 
 
   const getUserProfile = async () => {
     
@@ -42,16 +41,16 @@ function App() {
     }
 
     getUserProfileData()
-    console.log(loginButton);
   }
 
 
   
   useEffect(() => {
-    //used this to ensure getUserProfile function does not run evry time a function is render
+    // used this to ensure getUserProfile function does not run evry time a function is render
     // if(isUserOpen){
     //   getUserProfile()
-    // // }
+    // }
+
     getUserProfile()
     
     },[]);
