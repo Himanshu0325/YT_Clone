@@ -40,8 +40,16 @@ export default function UserOptions(props){
           <h1 className="font-serif text-xl">{fullName}</h1>
           <h2 className="font-serif text-sm">{userName}</h2>
         </div>
-        <div className="w-full text-center ">
-          <ul className="w-full ml-8" >
+        <div className="w-full text-center flex justify-center ">
+          <ul className="w-full  gap-4  flex flex-col" >
+            <li className="flex w-full">
+              <img className='h-[2rem] w-[2rem] ' src="" alt="" />
+                <p className="font-serif text-lg">Change Password</p>
+            </li>
+            <li className="flex w-full border-b-2 border-b-gray-400">
+              <img className='h-[2rem] w-[2rem] ' src="" alt="" />
+                <p className="font-serif text-lg">Update Information</p>
+            </li>
             <li className="flex w-full">
               <button className={`w-full flex gap-4 `}
                 onClick={() => {

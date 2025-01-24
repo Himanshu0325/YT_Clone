@@ -5,6 +5,7 @@ import App from './App.jsx'
 import Auth from "./Components/Auth.jsx"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Hero from './Components/Hero.jsx'
+import Subcription from "./Components/Subcription.jsx"
 
 const router = createBrowserRouter([
   {
@@ -20,10 +21,10 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Auth/>,
       },
-      // {
-      //   path: "/PasswordGenerator",
-      //   element: <Passwor_generator/>,
-      // },
+      {
+        path: "/subcribed-channel",
+        element: <Subcription/>,
+      },
       // {
       //   path: "/CurrencyConverter",
       //   element: <Currency_converter/>,

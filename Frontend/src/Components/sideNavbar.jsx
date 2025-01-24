@@ -11,6 +11,7 @@ const MenuIcon = () => { return <span>☰</span>;}
 
 const navItems = [
   { icon: HomeIcon, label: 'Home', path: '/' },
+  { icon: watchHistory, label: 'Subcriptions', path: '/subcribed-channel' },
   { icon: watchHistory, label: 'WatchHistory', path: '/watch-history' },
   { icon: SettingsIcon, label: 'Settings', path: '/settings' },
   { icon: HelpIcon, label: 'Help', path: '/help' },
@@ -41,7 +42,7 @@ function SideNavbar(props) {
                 </li>
               } else {
                 return <li>
-                  <NavLink className={`text-black text-xl font-serif ml-4 gap-2 `} to={item.path} key={id} >
+                  <NavLink className={`text-black text-xl font-serif ml-4 gap-2 flex`} to={item.path} key={id} >
                     {item.icon}
                     {item.label}
                   </NavLink>
