@@ -185,31 +185,46 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async (req , res)=>{
   const {oldPassword , newPassword} = req.body
-  console.log(oldPassword , newPassword);
+  console.log(oldPassword , newPassword ,req.user._id);
   
   const user  = await User.findById(req.user?._id)
   const isPasswordCorrect = user.isPasswordCorrect(oldPassword)
 
-  if (!isPasswordCorrect) {
-    console.log('password is incorrect');
-    
+  if (isPasswordCorrect) {
+
+    user.password = newPassword
+    await user.save({ validateBeforeSave: false })
+
+    console.log("pass updated");
+
     return res
-    .status(400)
-    .send({
-      message : "Incorrect old Password",
-      code:400,
-    })
+      .status(200)
+      .send({
+        message: "Password updated successfully",
+        code: 200,
+      })
+  } else {
+    console.log('password is incorrect');
+
+    return res
+      .status(400)
+      .send({
+        message: "Incorrect old Password",
+        code: 400,
+      })
   }
 
-  user.password = newPassword
-  await user.save({validateBeforeSave:false})
+  // user.password = newPassword
+  // await user.save({validateBeforeSave:false})
 
-  return res
-    .status(200)
-    .send({
-      message : "Password updated successfully",
-      code:200,
-    })
+  // console.log("pass updated");
+  
+  // return res
+  //   .status(200)
+  //   .send({
+  //     message : "Password updated successfully",
+  //     code:200,
+  //   })
 })
 
 const updateAccountDetails = async (req , res)=>{

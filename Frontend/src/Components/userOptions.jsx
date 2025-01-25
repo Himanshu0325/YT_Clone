@@ -10,6 +10,7 @@ export default function UserOptions(props){
   const isUserOpen = props.isUserOpen
   const loginButton = props.loginButton
   const toggleUserOptions = props.toggleUserOptions
+  const toogleshowUpdatePass = props.toogleshowUpdatePass
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
   const[userName, setUserName] = useState("UserName")
   const[fullName, setFullName] = useState("FullName")
@@ -43,8 +44,10 @@ export default function UserOptions(props){
         <div className="w-full text-center flex justify-center ">
           <ul className="w-full  gap-4  flex flex-col" >
             <li className="flex w-full">
+              <button onClick={toogleshowUpdatePass}>
               <img className='h-[2rem] w-[2rem] ' src="" alt="" />
-                <p className="font-serif text-lg">Change Password</p>
+              <p className="font-serif text-lg">Change Password</p>
+              </button>
             </li>
             <li className="flex w-full border-b-2 border-b-gray-400">
               <img className='h-[2rem] w-[2rem] ' src="" alt="" />

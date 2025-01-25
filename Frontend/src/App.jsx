@@ -19,6 +19,7 @@ function App() {
   const [loginButton , setLoginButton] = useState(false)
   const [isOpen, setIsOpen] = useState(true)
   const [isUserOpen , setIsUserOpen ] = useState(false)
+  const [showUpdatePass , setShowUpdatePass] = useState(false)
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -29,6 +30,9 @@ function App() {
     console.log(isUserOpen,'app.jsx');
   };
 
+    const toogleshowUpdatePass= ()=>{
+      setShowUpdatePass(!showUpdatePass)
+    }
 
   const getUserProfile = async () => {
     
@@ -68,8 +72,8 @@ function App() {
           <Navbar toggleUserOptions={toggleUserOptions} loginButton={loginButton} isUserOpen={isUserOpen}/>
           <Outlet/>
 
-          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions}  />
-          <ReAuth />
+          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions} toogleshowUpdatePass={toogleshowUpdatePass}   />
+          <ReAuth showUpdatePass={showUpdatePass} toogleshowUpdatePass={toogleshowUpdatePass}/>
         </div>
 
       </div>
