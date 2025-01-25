@@ -188,22 +188,10 @@ const changeCurrentPassword = asyncHandler(async (req , res)=>{
   console.log(oldPassword , newPassword ,req.user._id);
   
   const user  = await User.findById(req.user?._id)
-  const isPasswordCorrect = user.isPasswordCorrect(oldPassword)
+  const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
 
-  if (isPasswordCorrect) {
+  if (!isPasswordCorrect) {
 
-    user.password = newPassword
-    await user.save({ validateBeforeSave: false })
-
-    console.log("pass updated");
-
-    return res
-      .status(200)
-      .send({
-        message: "Password updated successfully",
-        code: 200,
-      })
-  } else {
     console.log('password is incorrect');
 
     return res
@@ -214,17 +202,17 @@ const changeCurrentPassword = asyncHandler(async (req , res)=>{
       })
   }
 
-  // user.password = newPassword
-  // await user.save({validateBeforeSave:false})
+  user.password = newPassword
+  await user.save({validateBeforeSave:false})
 
-  // console.log("pass updated");
+  console.log("pass updated");
   
-  // return res
-  //   .status(200)
-  //   .send({
-  //     message : "Password updated successfully",
-  //     code:200,
-  //   })
+  return res
+    .status(200)
+    .send({
+      message : "Password updated successfully",
+      code:200,
+    })
 })
 
 const updateAccountDetails = async (req , res)=>{
