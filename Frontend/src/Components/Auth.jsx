@@ -75,7 +75,7 @@ export default function AnimatedAuth() {
         }else{
           const data = async ()=>{
             const message = res.data.message;
-            setErrorBox(true)
+            setErrorBox(!errorBox)
             setMessage(message)
           }
           data()

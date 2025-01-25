@@ -7,6 +7,7 @@ import UserOptions from './Components/userOptions'
 import axios from 'axios'
 import {Cookies} from "react-cookie"
 import getUserProfileData from './Api/getUsersProfile.js'
+import ReAuth from './Components/ReAuth.jsx'
 
 
 
@@ -68,6 +69,7 @@ function App() {
           <Outlet/>
 
           <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions}  />
+          <ReAuth />
         </div>
 
       </div>

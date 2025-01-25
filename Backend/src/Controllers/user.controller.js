@@ -185,15 +185,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async (req , res)=>{
   const {oldPassword , newPassword} = req.body
-
+  console.log(oldPassword , newPassword);
+  
   const user  = await User.findById(req.user?._id)
   const isPasswordCorrect = user.isPasswordCorrect(oldPassword)
 
   if (!isPasswordCorrect) {
+    console.log('password is incorrect');
+    
     return res
     .status(400)
     .send({
-      message : "Oncorrect old Password",
+      message : "Incorrect old Password",
       code:400,
     })
   }
