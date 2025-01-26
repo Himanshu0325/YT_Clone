@@ -27,7 +27,7 @@ const Navbar = (props) => {
   const[avatar, setavatar] = useState("")
 
   const data = async() =>{
-    const profileData = await getUserProfileData();
+    const profileData = await props.profileData;
     const { avatar} = profileData;
     setavatar(avatar)
   }
@@ -81,12 +81,15 @@ const Navbar = (props) => {
               {loginButton?
               <li className=''>
               <NavLink className={``} to={"/register"}>
-              <img className='h-[2rem] w-[2rem] ' src="" alt="" />
+              <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png" alt="" />
             </NavLink>
             </li> 
             : 
             <li className=''>
-                <NavLink className={``} onClick={toggleUserOptions}>
+                <NavLink className={``} onClick={(e)=>{
+                  e.preventDefault()
+                  toggleUserOptions()
+                }}>
                 <img className='h-[2rem] w-[2rem] ' src={avatar} alt="" />
               </NavLink>
               </li>}

@@ -14,12 +14,12 @@ import ReAuth from './Components/ReAuth.jsx'
 
 function App() {
 
-  // cookies: instanceOf(Cookies).isRequired
   const cookies = new Cookies();
   const [loginButton , setLoginButton] = useState(false)
   const [isOpen, setIsOpen] = useState(true)
   const [isUserOpen , setIsUserOpen ] = useState(false)
   const [showUpdatePass , setShowUpdatePass] = useState(false)
+  const [showUpdateScreen , setShowUpdateScreen] = useState(true)
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -27,12 +27,15 @@ function App() {
 
   const toggleUserOptions = () => {
     setIsUserOpen(!isUserOpen);
-    console.log(isUserOpen,'app.jsx');
   };
 
-    const toogleshowUpdatePass= ()=>{
-      setShowUpdatePass(!showUpdatePass)
-    }
+  const toogleshowUpdatePass = () => {
+    setShowUpdatePass(!showUpdatePass)
+  }
+
+  const toogleshowUpdateScreen = (value) => {
+    setShowUpdateScreen(value)
+  }
 
   const getUserProfile = async () => {
     
@@ -44,8 +47,6 @@ function App() {
     } else {
       setLoginButton(loginButton)
     }
-
-    getUserProfileData()
   }
 
 
@@ -60,6 +61,12 @@ function App() {
     
     },[]);
 
+    const data = async(e) =>{
+      const profileData = await getUserProfileData();
+      
+      return profileData
+    }
+    const profileData = data()
 
   return (
     <>
@@ -69,11 +76,11 @@ function App() {
           <SideNavbar isOpen={isOpen}  />
         </div>
         <div className={`${isOpen?"w-[85%]":"w-[95%]"} h-full transition-[width] duration-[500ms]`}>
-          <Navbar toggleUserOptions={toggleUserOptions} loginButton={loginButton} isUserOpen={isUserOpen}/>
+          <Navbar toggleUserOptions={toggleUserOptions} loginButton={loginButton} isUserOpen={isUserOpen} profileData={profileData} />
           <Outlet/>
 
-          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions} toogleshowUpdatePass={toogleshowUpdatePass}   />
-          <ReAuth showUpdatePass={showUpdatePass} toogleshowUpdatePass={toogleshowUpdatePass}/>
+          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} toogleshowUpdateScreen={toogleshowUpdateScreen}  />
+          <ReAuth showUpdatePass={showUpdatePass} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} showUpdateScreen={showUpdateScreen} />
         </div>
 
       </div>

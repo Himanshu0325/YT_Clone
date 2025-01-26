@@ -18,10 +18,10 @@ const getUserProfileData = async (e) => {
         accessToken: accessToken,
       },
     });
-    const res = response.data
-    const {username, fullname , avatar , message } = res
+    const res = response.data.user
+    console.log(response.data.user);
     
-    return {username , fullname , avatar , message};
+    return res;
   } catch (error) {
     console.error('Error fetching user profile data:', error);
     throw error;

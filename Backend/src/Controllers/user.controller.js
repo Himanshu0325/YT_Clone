@@ -173,14 +173,9 @@ const getUserProfile = asyncHandler(async (req, res) => {
         message: "invalid access token ! User not Found"
       });
     }
-
-    return res.send({
-      avatar: user.avatar,
-      fullname: user.fullname,
-      username: user.username,
-      
-
-  });
+    // console.log(res);
+    
+    return res.send({user});
 });
 
 const changeCurrentPassword = asyncHandler(async (req , res)=>{
@@ -216,23 +211,38 @@ const changeCurrentPassword = asyncHandler(async (req , res)=>{
 })
 
 const updateAccountDetails = async (req , res)=>{
-  const {email , fullname} = req.body
+  const {email , fullname , username , password } = req.body
+  console.log(email , fullname , username , password);
+  
 
-  if (!fullname || !email) {
+  // if (!fullname || !email) {
+  //   return res
+  //   .status(400)
+  //   .send({
+  //     message : "All Feilds are required",
+  //     code:400,
+  //   })
+  // }
+  const user  = await User.findById(req.user?._id)
+  
+  const isPasswordCorrect = await user.isPasswordCorrect(password)
+
+  if (!isPasswordCorrect) {
     return res
     .status(400)
     .send({
-      message : "All Feilds are required",
+      message : "Incorrect Password",
       code:400,
     })
   }
-
-  const user = User.findByIdAndUpdate(
+  else{
+    await User.findByIdAndUpdate(
     req.user._id,
     {
       $set:{
         fullname,
-        email:email
+        email:email?email:user.email ,
+        username : username?username:user.username
       }
     },
     {
@@ -245,7 +255,7 @@ const updateAccountDetails = async (req , res)=>{
     .send({
       message : "Account details updated Successfully",
       code:200,
-    })
+    })}
 }
 
 export {
