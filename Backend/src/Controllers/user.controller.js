@@ -190,7 +190,7 @@ const changeCurrentPassword = asyncHandler(async (req , res)=>{
     console.log('password is incorrect');
 
     return res
-      .status(400)
+      .status(200)
       .send({
         message: "Incorrect old Password",
         code: 400,
@@ -229,7 +229,7 @@ const updateAccountDetails = async (req , res)=>{
 
   if (!isPasswordCorrect) {
     return res
-    .status(400)
+    .status(200)
     .send({
       message : "Incorrect Password",
       code:400,
