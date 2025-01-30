@@ -66,10 +66,17 @@ export default function AnimatedAuth() {
         const refreshToken = res.data.data[1];
         const status = res.data.code
         console.log(status);
+
+        const options = {
+          path: '/',
+          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+          //httpOnly: true,
+          secure: true,
+        };
         
 
-        setCookie('accessToken', accessToken, { path: '/' });
-        setCookie('refreshToken', refreshToken, { path: '/' });
+        setCookie('accessToken', accessToken, options);
+        setCookie('refreshToken', refreshToken, options );
         location.reload()
         location.assign("http://localhost:5173/")
         }else{

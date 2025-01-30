@@ -40,7 +40,7 @@ function App() {
   const getUserProfile = async () => {
     
     const token = cookies.get('accessToken')
-    console.log("token:",!token);
+    console.log("token:",token);
     
     if (!token) {
       setLoginButton(!loginButton)

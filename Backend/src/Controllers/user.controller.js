@@ -240,7 +240,7 @@ const updateAccountDetails = async (req , res)=>{
     req.user._id,
     {
       $set:{
-        fullname,
+        fullname:fullname?fullname:user.fullname,
         email:email?email:user.email ,
         username : username?username:user.username
       }

@@ -42,9 +42,13 @@ function SideNavbar(props) {
                 </li>
               } else {
                 return <li>
-                  <NavLink className={`text-black text-xl font-serif ml-4 gap-2 flex`} to={item.path} key={id} >
-                    {item.icon}
-                    {item.label}
+                  <NavLink className={`text-black text-xl font-serif ml-4  flex`} to={item.path} key={id} >
+                    
+                      <div className="w-full flex items-center m-2">
+                        <span className="ml-2">{item.label}</span>
+                        {item.icon()}
+                      </div>
+                    
                   </NavLink>
                 </li>
               }
