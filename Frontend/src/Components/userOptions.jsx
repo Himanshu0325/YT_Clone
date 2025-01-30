@@ -46,22 +46,26 @@ export default function UserOptions(props){
         <div className="w-full text-center flex justify-center ">
           <ul className="w-full  gap-4  flex flex-col" >
             <li className="flex w-full">
+              <NavLink to={'/Reauth-Password'}>
               <button className="flex " onClick={()=>{
-                toogleshowUpdatePass()
+                // toogleshowUpdatePass()
                 toogleshowUpdateScreen(true)
               }} >
               <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737838789/icons8-change-48_gryjrw.png" alt="" />
               <p className="font-serif text-lg p-2">Change Password</p>
               </button>
+              </NavLink>
             </li>
             <li className="flex w-full border-b-2 border-b-gray-400 p-2">
+              <NavLink to={'/Reauth-Information'} >
               <button className="flex" onClick={()=>{
-                toogleshowUpdatePass()
+                // toogleshowUpdatePass()
                 toogleshowUpdateScreen(false)
               }}>
                 <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737912893/change_account_nrehbl.png" alt="" />
                 <p className="font-serif text-lg">Update Information</p>
               </button>
+              </NavLink>
             </li>
             <li className="flex w-full m-4">
               <button className={`w-full flex gap-4 `}

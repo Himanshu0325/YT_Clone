@@ -80,7 +80,7 @@ function App() {
           <Outlet/>
 
           <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} toogleshowUpdateScreen={toogleshowUpdateScreen}  />
-          <ReAuth showUpdatePass={showUpdatePass} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} showUpdateScreen={showUpdateScreen} />
+          {/* <ReAuth showUpdatePass={showUpdatePass} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} showUpdateScreen={showUpdateScreen} /> */}
         </div>
 
       </div>

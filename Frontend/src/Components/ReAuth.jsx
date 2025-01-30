@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useState , useEffect } from "react"
 import { Cookies } from "react-cookie"
+import getUserProfileData from "../Api/getUsersProfile"
 
 const ReAuth = (props) =>{
 
@@ -26,12 +27,21 @@ const ReAuth = (props) =>{
     Credential:true
   };
   const showUpdatePass = props.showUpdatePass
-  const showUpdateScreen = props.showUpdateScreen
+  const [showUpdateScreen , setShowUpdateScreen] = useState()
   // const toogleshowUpdatePass = props.toogleshowUpdatePass
   const accessToken = cookie.get('accessToken')
 
+  useEffect(() => {
+    const url = window.location.href;
+    if (url === "http://localhost:5173/Reauth-Password") {
+      setShowUpdateScreen(true);
+    } else {
+      setShowUpdateScreen(false);
+    }
+  }, []);
+
   const data = async() =>{
-    const profileData = await props.profileData;
+    const profileData = await getUserProfileData();
     const {fullname , username , email} = profileData
     setFullName(fullname)
     setUserName(username)
@@ -112,7 +122,7 @@ const ReAuth = (props) =>{
   }
 
   return (
-    <div className={`w-screen h-screen bg-white absolute top-0 left-0 flex justify-center items-center ${showUpdatePass?"visible":"hidden"}`}  >
+    <div className={`w-screen h-screen bg-white absolute top-0 left-0 flex justify-center items-center `}  >
 
 
     {showUpdateScreen?
@@ -123,12 +133,12 @@ const ReAuth = (props) =>{
         <form className="mx-4 flex flex-col " onSubmit={(e)=>{
           e.preventDefault()
         }}>
-          <label for="oldPass" className="block font-serif text-lg font-medium  text-gray-700">Enter your old password</label>
+          <label htmlFor="oldPass" className="block font-serif text-lg font-medium  text-gray-700">Enter your old password</label>
           <input type="password" id="oldPass" name="oldPass"  className="mt-1 mb-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" onChange={(e)=>{
             setOldPass(e.target.value)
           }}/>
 
-          <label for="newPass" className="block font-serif text-lg font-medium  text-gray-700">Enter your new password</label>
+          <label htmlFor="newPass" className="block font-serif text-lg font-medium  text-gray-700">Enter your new password</label>
           <input type="password" id="newPass" name="oldPass"  className="mt-1 mb-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" onChange={(e)=>{
             setNewPass(e.target.value)
           }}/>
@@ -141,7 +151,8 @@ const ReAuth = (props) =>{
 
           <button className=' py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  '
           onClick={()=>{
-            props.toogleshowUpdatePass()
+            // props.toogleshowUpdatePass()
+            location.assign('http://localhost:5173/')
           }}>
             Go to Home Page
           </button>
@@ -157,28 +168,28 @@ const ReAuth = (props) =>{
         <form className="mx-4 flex flex-col " onSubmit={(e)=>{
           e.preventDefault()
         }}>
-          <label for="name" className="block font-serif text-lg font-medium  text-gray-700">Name</label>
+          <label htmlFor="name" className="block font-serif text-lg font-medium  text-gray-700">Name</label>
           <input type="text" id="name" name="name"  className="mt-1 mb-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" readOnly={false} defaultValue={fullName} onChange={
             (e)=>{
               setNewFullName(e.target.value)
             }
           }/>
 
-          <label for="userName" className="block font-serif text-lg font-medium  text-gray-700">User Name</label>
+          <label htmlFor="userName" className="block font-serif text-lg font-medium  text-gray-700">User Name</label>
           <input type="text" id="userName" name="userName" className="mt-1 mb-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" readOnly={false} defaultValue={userName} onChange={
             (e)=>{
               setNewUserName(e.target.value)
             }
           }/>
 
-          <label for="email" className="block font-serif text-lg font-medium  text-gray-700">Email</label>
+          <label htmlFor="email" className="block font-serif text-lg font-medium  text-gray-700">Email</label>
           <input type="email" id="email" name="email" className="mt-1 mb-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" readOnly={false} defaultValue={Email} onChange={
             (e)=>{
               setNewEmail(e.target.value)
             }
           }/>
 
-          <label for="newPass" className="block font-serif text-lg font-medium  text-gray-700">Password</label>
+          <label htmlFor="newPass" className="block font-serif text-lg font-medium  text-gray-700">Password</label>
           <input type="password" id="newPass" name="oldPass"  className="mt-1 mb-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" onChange={(e)=>{
             setNewPass(e.target.value)
           }}/>
@@ -191,8 +202,9 @@ const ReAuth = (props) =>{
 
           <button className=' py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500  '
           onClick={()=>{
-            props.toogleshowUpdatePass()
-            location.reload()
+            // props.toogleshowUpdatePass()
+            // location.reload()
+            location.assign('http://localhost:5173/')
           }}>
             Go to Home Page
           </button>

@@ -6,6 +6,7 @@ import Auth from "./Components/Auth.jsx"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Hero from './Components/Hero.jsx'
 import Subcription from "./Components/Subcription.jsx"
+import ReAuth from "./Components/ReAuth.jsx"
 
 const router = createBrowserRouter([
   {
@@ -34,7 +35,15 @@ const router = createBrowserRouter([
       //   element: <Digitalclock/>,
       // }
     ]
-  }
+  },
+  {
+    path: '/Reauth-Password',
+    element: <ReAuth />,
+  },
+  {
+    path: '/Reauth-Information',
+    element: <ReAuth />,
+  },
 ])
 
 createRoot(document.getElementById('root')).render(
