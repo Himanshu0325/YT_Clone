@@ -1,44 +1,43 @@
-import mongoose , {Schema} from "mongoose"
+import mongoose, { Schema } from "mongoose";
 
 const videoSchema = new Schema(
   {
-      videoFile:{
-        type: String,
-        required: true,
-      },
-      thumbnail:{
-        type: String,
-        required: true,
-      },
-      title:{
-        type: String,
-        required: true,
-      },
-      discription:{
-        type: String,
-        required: true,
-      },
-      duration:{
-        type: Number,//cloudnary
-        required:true
-      },
-      views:{
-        type:Number,
-        default:0,
-      },
-      isPublished:{
-        type:Boolean,
-        default:true,
-
-      },
-      owner:{
-        type: Schema.Types.ObjectId,
-        ref:"User"
-      }
+    videoFile: {
+      type: String,
+      required: true,
+    },
+    thumbnail: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    discription: {
+      type: String,
+      required: true,
+    },
+    duration: {
+      type: Number, // cloudinary
+      required: true,
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    isPublished: {
+      type: Boolean,
+      default: true,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
-    timestamps:true,
+    timestamps: true,
   }
-)
+);
 
-export const video = mongoose.model("Video",videoSchema)
+export const Video = mongoose.model("Video", videoSchema);

@@ -37,7 +37,7 @@ const Navbar = (props) => {
 
   
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-[#f5f5f5] shadow-lg">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
@@ -68,51 +68,46 @@ const Navbar = (props) => {
             </div>
           </div>
 
-          <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <ul className='text-l flex gap-4 '>
+          <div className="sm:ml-6 sm:flex sm:items-center w-[15%]">
+            <ul className='text-l flex gap-4 w-full'>
 
-              <li className='hover:text-gray-500'>
+        
+              {loginButton?
+                <li className='border-2 border-gray-500 rounded-full w-full'>
+                  <NavLink className={``} to={"/register"}>
+                    <div className="flex gap-2 items-center w-full">
+                      <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png" alt="" />
+                      <p>Login</p>
+                    </div>
+                  </NavLink>
+                </li> 
+            : 
+
+            <div className="flex w-full gap-3">
+
+              <li className='hover:text-gray-500 m-1 border-2 border-gray-500 rounded-full w-[60%] ' >
                 <NavLink className={({isActive})=>{
                 `${isActive?"text-gray-700":"text-black"} hover:text-gray-800`
-              }} to={"/"}>Home</NavLink>
+              }} to={"/upload-video"}>
+                {/* <img src="https://res.cloudinary.com/dataghar/image/upload/v1738348236/icons8-video-24_onrbfv.png" alt="" /> */}
+                <div className="flex gap-2 items-center w-full justify-center">
+                      <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1738348236/icons8-video-24_onrbfv.png" alt="" />
+                      <p>Create</p>
+                </div>
+              </NavLink>
               </li>
 
-
-              {loginButton?
-              <li className=''>
-              <NavLink className={``} to={"/register"}>
-              <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png" alt="" />
-            </NavLink>
-            </li> 
-            : 
-            <li className=''>
+              <li className='m-1'>
                 <NavLink className={``} onClick={(e)=>{
                   e.preventDefault()
                   toggleUserOptions()
                 }}>
-                <img className='h-[2rem] w-[2rem] ' src={avatar} alt="" />
+                    <img className='h-[2.5rem] w-[2.5rem] ' src={avatar} alt="" />
               </NavLink>
-              </li>}
-
-
-              {/* <li className='hover:text-gray-500'>
-                <NavLink className={({isActive})=>{
-                `${isActive?"text-gray-500":"text-black"}`
-              }} to={"/PasswordGenerator"} >PasswordGenerator</NavLink>
               </li>
+            </div>
 
-
-              <li className='hover:text-gray-500'>
-                <NavLink className={({isActive})=>{
-                `${isActive? "text-white": "text-black"}`
-              }} to={"/CurrencyConverter"}>Currency Converter</NavLink>
-              </li>
-
-              <li className='hover:text-gray-500'>
-                <NavLink className={({isActive})=>{
-                `${isActive? "text-white": "text-black"}`
-              }} to={"/Digitalclock"}>Digitalclock</NavLink>
-              </li> */}
+            }
 
             </ul>
           </div>

@@ -7,6 +7,9 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Hero from './Components/Hero.jsx'
 import Subcription from "./Components/Subcription.jsx"
 import ReAuth from "./Components/ReAuth.jsx"
+import UploadVideo from './Components/UploadVideo.jsx'
+import CreatorPage from './Components/Creatorpage.jsx'
+import VideoPage from './Components/VideoPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -26,10 +29,10 @@ const router = createBrowserRouter([
         path: "/subcribed-channel",
         element: <Subcription/>,
       },
-      // {
-      //   path: "/CurrencyConverter",
-      //   element: <Currency_converter/>,
-      // },
+      {
+        path: "/upload-video",
+        element: <UploadVideo/>,
+      },
       // {
       //   path: "/Digitalclock",
       //   element: <Digitalclock/>,
@@ -44,6 +47,20 @@ const router = createBrowserRouter([
     path: '/Reauth-Information',
     element: <ReAuth />,
   },
+  {
+    path: "/creator-page",
+    element: <CreatorPage/>,
+    children:[
+      {
+        path:"/creator-page/video",
+        element:<VideoPage/>
+      }
+    ]
+  }
+  // {
+  //   path: "/upload-video",
+  //   element: <UploadVideo/>,
+  // },
 ])
 
 createRoot(document.getElementById('root')).render(

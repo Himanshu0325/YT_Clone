@@ -19,7 +19,6 @@ function App() {
   const [isOpen, setIsOpen] = useState(true)
   const [isUserOpen , setIsUserOpen ] = useState(false)
   const [showUpdatePass , setShowUpdatePass] = useState(false)
-  const [showUpdateScreen , setShowUpdateScreen] = useState(true)
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -31,10 +30,6 @@ function App() {
 
   const toogleshowUpdatePass = () => {
     setShowUpdatePass(!showUpdatePass)
-  }
-
-  const toogleshowUpdateScreen = (value) => {
-    setShowUpdateScreen(value)
   }
 
   const getUserProfile = async () => {
@@ -70,7 +65,7 @@ function App() {
 
   return (
     <>
-      <div className="w-[100vw] h-[100vh] flex overflow-hidden ">
+      <div className="w-[100vw] h-[100vh] flex overflow-hidden bg-[#f5f5f5] ">
         <div className={`${isOpen?"w-[15%]":"w-[5%]"} h-full transition-[width] duration-[500ms]`}>
          <span className={`fixed  text-2xl cursor-pointer ${isOpen?'left-[12%] top-4':'left-4 top-4'} transition-all duration-500`} onClick={toggleSidebar}>☰</span>
           <SideNavbar isOpen={isOpen}  />
@@ -79,8 +74,8 @@ function App() {
           <Navbar toggleUserOptions={toggleUserOptions} loginButton={loginButton} isUserOpen={isUserOpen} profileData={profileData} />
           <Outlet/>
 
-          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} toogleshowUpdateScreen={toogleshowUpdateScreen}  />
-          {/* <ReAuth showUpdatePass={showUpdatePass} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData} showUpdateScreen={showUpdateScreen} /> */}
+          <UserOptions isUserOpen={isUserOpen} loginButton={loginButton} toggleUserOptions={toggleUserOptions} toogleshowUpdatePass={toogleshowUpdatePass} profileData={profileData}   />
+
         </div>
 
       </div>

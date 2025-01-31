@@ -214,15 +214,6 @@ const updateAccountDetails = async (req , res)=>{
   const {email , fullname , username , password } = req.body
   console.log(email , fullname , username , password);
   
-
-  // if (!fullname || !email) {
-  //   return res
-  //   .status(400)
-  //   .send({
-  //     message : "All Feilds are required",
-  //     code:400,
-  //   })
-  // }
   const user  = await User.findById(req.user?._id)
   
   const isPasswordCorrect = await user.isPasswordCorrect(password)
@@ -257,6 +248,9 @@ const updateAccountDetails = async (req , res)=>{
       code:200,
     })}
 }
+
+
+
 
 export {
   registerUser,
