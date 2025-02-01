@@ -10,7 +10,7 @@ export default function Hero (props){
   return(
     <>
     <div className={`w-full h-full bg-[#e98c2f] grid grid-cols-4 grid-rows-2 `} >
-      <h1 className="text-white">Hero</h1>
+      
     </div>
     </>
   )

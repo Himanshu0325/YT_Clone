@@ -67,6 +67,14 @@ export default function UserOptions(props){
               </button>
               </NavLink>
             </li>
+            <li className="flex w-full border-b-2 border-b-gray-400 p-2">
+              <NavLink to={'/creator-page'}>
+                <button className="flex">
+                  <img  className='h-[2rem] w-[2rem] ml-2' src="https://res.cloudinary.com/dataghar/image/upload/v1738441042/video-recording_i2kuu7.svg" alt="" />
+                  <p className="font-serif text-lg">Your Channel</p>
+                </button>
+              </NavLink>
+            </li>
             <li className="flex w-full m-4">
               <button className={`w-full flex gap-4 `}
                 onClick={() => {

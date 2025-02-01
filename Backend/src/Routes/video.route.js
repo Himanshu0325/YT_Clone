@@ -5,9 +5,9 @@ import { verifyJWT } from "../Middlewares/Auth.middleware.js";
 
 const router = Router();
 
-router.route("/create-video").post(verifyJWT, upload.fields([
+router.route("/create-video").post( upload.fields([
   { name: "thumbnail", maxCount: 1 },
   { name: "videoFile", maxCount: 1 }
-]), createvideo);
+]),verifyJWT, createvideo);
 
 export default router;
