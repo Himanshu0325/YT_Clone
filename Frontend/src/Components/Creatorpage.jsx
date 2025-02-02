@@ -1,13 +1,12 @@
 import { useState } from "react"
 import { NavLink, Outlet } from "react-router-dom"
-// import Sidebar from "./Sidebar"
-// import Header from "./Header"
-// import StatCard from "./StatCard"
-// import VideoCard from "./VideoCard"
+import { Cookies } from "react-cookie"
+import axios from 'axios';
+import getUserProfileData from "../Api/getUsersProfile";
 
 const navItems = [
   { icon: "home", label: "Dashboard" },
-  { icon: "video", label: "Content" , path:"/creator-page/video" },
+  { icon: "video", label: "Content" , path:"/creator-page/video" , logic : ()=>{ } },
   { icon: "bar-chart-2", label: "Analytics" },
   { icon: "settings", label: "Settings" },
 ]
@@ -31,38 +30,19 @@ function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
       <div className="p-4">
         <h2 className="text-2xl font-semibold text-black">Your Channel</h2>
       </div>
-      <div className="p-4">
-        <div className="flex flex-col items-center">
-          <img
-            src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png"
-            alt="Profile"
-            className="w-24 h-24 rounded-full mr-4"
-          />
-          <div>
-            <h3 className="text-lg font-semibold text-black">John Doe</h3>
-            <p className="text-sm text-gray-800">@johndoe</p>
-          </div>
-        </div>
-      </div>
+      
       <nav>
         {navItems.map((item) => (
-          // <button
-          //   key={item.label}
-          //   className={`flex items-center px-4 py-2 mt-2 text-gray-100 w-full ${
-          //     activeItem === item.label ? "bg-gray-700" : "hover:bg-gray-700"
-          //   }`}
-          //   onClick={() => setActiveItem(item.label)}
-          // >
-          //   <i className={`mr-3 fas fa-${item.icon}`}></i>
-          //   {item.label}
-          // </button>
           <NavLink to={item.path}>
             <button
             key={item.label}
             className={`flex items-center px-4 py-2 mt-2 text-black w-full ${
               activeItem === item.label ? "bg-gray-200" : "hover:bg-gray-200"
             } `}
-            onClick={() => setActiveItem(item.label)}
+            onClick={() => {
+              setActiveItem(item.label)
+              item.logic()
+            } }
           >
             <i className={`mr-3 fas fa-${item.icon}`}></i>
             {item.label}
@@ -81,25 +61,28 @@ function StatCard({ title, value }) {
     </div>
   )
 }
-function VideoCard({ title, views, date }) {
-  return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="aspect-w-16 aspect-h-9 bg-gray-200"></div>
-      <div className="p-4">
-        <h3 className="font-semibold text-lg">{title}</h3>
-        <p className="text-sm text-gray-500">
-          {views} views • {date}
-        </p>
-      </div>
-    </div>
-  )
-}
+
 
 
 
 function CreatorDashboard() {
   const [activeItem, setActiveItem] = useState("Dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [fullName , setFullName] = useState('')
+  const [userName, setUserName] = useState('')
+  const [Avatar , setAvatar]= useState('')
+  const [coverImg , setCoverImg] = useState('')
+
+  const data = async(e) =>{
+    const profileData = await getUserProfileData();
+  
+    const {fullname , username , avatar , CoverImg} = profileData
+    setFullName(fullname)
+    setUserName(username)
+    setAvatar(avatar)
+    setCoverImg(CoverImg)
+  }
+  data()
 
   return (
     <div className="flex h-screen">
@@ -114,7 +97,30 @@ function CreatorDashboard() {
       <div className="flex-1 overflow-auto">
         <Header title={activeItem} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
 
-        <main className="p-6">
+        <main className="p-6 ">
+
+          <div className="bg-white p-4 rounded-lg shadow flex flex-col  h-[27rem] mb-16 ">
+            <div className="border-2 h-[17rem] w-full  rounded-3xl">
+              <img className="h-full w-full rounded-3xl" src={coverImg?coverImg:'https://res.cloudinary.com/dataghar/image/upload/v1738521825/rosebanner_iqqfcl.jpg'} alt="" />
+            </div>
+
+            <div className="flex flex-shrink-0 h-[8rem] items-center ">
+            <div className="flex-shrink-0 h-full ">
+              <img
+                className="h-full w-32 rounded-full"
+                src={Avatar?Avatar:'`https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png`'}
+                alt={` logo`}
+              />
+            </div>
+            <div className="ml-4">
+              <h1 className="text-2xl font-semibold">{fullName}</h1>
+              <h3 className="text-md font-semibold">{userName}</h3>
+              <p className="text-gray-500"> 100M subscribers . 10 videos</p>
+              <p className="text-gray-700 mt-2"></p>
+            </div>
+            </div>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <StatCard title="Views" value="1.2M" />
             <StatCard title="Watch Time" value="45K hours" />
@@ -124,9 +130,9 @@ function CreatorDashboard() {
 
           <h2 className="text-xl font-semibold mt-8 mb-4">Recent Videos</h2>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <VideoCard title="How to Build a React App" views="15K" date="2 days ago" />
+            {/* <VideoCard title="How to Build a React App" views="15K" date="2 days ago" />
             <VideoCard title="JavaScript Tips and Tricks" views="22K" date="1 week ago" />
-            <VideoCard title="CSS Flexbox Tutorial" views="18K" date="2 weeks ago" />
+            <VideoCard title="CSS Flexbox Tutorial" views="18K" date="2 weeks ago" /> */}
           </div>
 
           <Outlet/>

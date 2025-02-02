@@ -35,6 +35,8 @@ const createvideo = asyncHandler(async (req, res) => {
   
 });
 
-
+const getAllVideo = async (req ,res)=>{
+  
+}
 
 export { createvideo };

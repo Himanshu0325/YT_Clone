@@ -2,26 +2,12 @@ import React ,{useEffect, useState} from 'react';
 import { Cookies } from "react-cookie"
 import axios from 'axios';
 
-// function VideoCard({ title, views, date }) {
-//   return (
-//     <div className="bg-white rounded-lg shadow overflow-hidden">
-//       <div className="aspect-w-16 aspect-h-9 bg-gray-200">
-        
-//       </div>
-//       <div className="p-4">
-//         <h3 className="font-semibold text-lg">{title}</h3>
-//         <p className="text-sm text-gray-500">
-//           {views} views • {date}
-//         </p>
-//       </div>
-//     </div>
-//   )
-// }
+
 
 
 const VideoPage = () => {
 
-  const [Data , setData] = useState({})
+  const [Data , setData] = useState([])
   const cookie= new Cookies()
   const data = async ()=>{
     
@@ -49,39 +35,30 @@ const VideoPage = () => {
     ignore = false
     },[]);
   
-    function VideoCard({ title, views, date }) {
-      return (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <div className="aspect-w-16 aspect-h-9 bg-gray-200">
-            {
-              Data.map((video, index) => (
-                <VideoCard 
-                  key={index}
-                  title={video.title}
-                  views={video.views}
-                  date={video.date}
-                />
-              ))
-            }
-            
-          </div>
-          <div className="p-4">
-            <h3 className="font-semibold text-lg">{title}</h3>
-            <p className="text-sm text-gray-500">
-              {views} views • {date}
-            </p>
-          </div>
-        </div>
-      )
-    }
+    
 
   return (
-    <div className='absolute w-[83%] h-[90%] bg-[#f5f5f5] top-[10%] left-[17%]'>
-      <div className="flex flex-col gap-4 pt-8  pl-4">
-        <VideoCard title="How to Build a React App" views="15K" date="2 days ago" />
-        <VideoCard title="JavaScript Tips and Tricks" views="22K" date="1 week ago" />
-        <VideoCard title="CSS Flexbox Tutorial" views="18K" date="2 weeks ago" />
+    <div className='absolute w-[83%] h-[90%] bg-[#f5f5f5] top-[10%] left-[17%] overflow-scroll'>
+      <div className="flex flex-col gap-4 pt-8  pl-4  ">
+      {
+          Data.map((video, index) => (
+            <div key={index} className="bg-white rounded-lg shadow overflow-hidden flex h-[20rem] ">
+              <div className="w-[50%] h-full aspect-h-9 bg-gray-200">
+                <img className='h-full w-full bg-cover' src={video.thumbnail} alt="" />
+              </div>
+              <div className="p-4">
+                <h3 className="font-semibold text-lg text-black">{video.title}</h3>
+                <p className="text-sm text-gray-500 pb-8">
+                  {video.views} views • Published On :{new Date(video.createdAt).getDate()}-{new Date(video.createdAt).getMonth()}-{new Date(video.createdAt).getFullYear()}
+                </p>
+                <p>{video.discription}</p>
+              </div>
+            </div>
+          ))
+        }
       </div>
+
+      
     </div>
   );
 };

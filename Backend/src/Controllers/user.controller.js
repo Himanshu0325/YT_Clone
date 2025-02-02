@@ -359,7 +359,8 @@ const getUserVideo = async (req ,res)=>{
         title:1,
         discription:1,
         thumbnail:1,
-        userVideo:1
+        userVideo:1,
+        username:1
        }
     }]
   )
