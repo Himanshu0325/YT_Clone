@@ -249,7 +249,125 @@ const updateAccountDetails = async (req , res)=>{
     })}
 }
 
+const getUserChannelProfile = async(req,res) =>{
+  const {username} = req.params
 
+  if (!username?.trim()) {
+    return res.send({
+      message:"Username is Invalid"
+    })
+    .status(400)
+  }
+
+  const Channel = await User.aggregate(
+    {
+      $match: {
+        username: username?.toLowerCase()
+      }
+    },
+    {
+      $lookup: {
+        from: "subscriptions",
+        localField: "_id",
+        foreignFiled:"channel",
+        as : "subscribers"
+      }
+    },
+    {
+      $lookup:{
+        from: "subscriptions",
+        localField: "_id",
+        foreignFiled:"subscriber",
+        as : "subscribedToo"
+      }
+    },
+    {
+      $addFields:{
+
+          subscribersCount:{
+          $size: "$subscribers"
+          },
+          channelssubscribedToo:{
+            $size : "$subscribedToo"
+          },
+          isSubscribed: {
+            $cond: {
+              if: {$in : [req.user?._id , "$subscribers.subscriber"]},
+              then: true,
+              else: false,
+            }
+          }
+      }
+    },
+    {
+      $project: {
+        fullName:1,
+        username:1,
+        subscribersCount:1,
+        channelssubscribedToo:1,
+        isSubscribed:1,
+        avatar:1,
+        coverImage:1,
+      }
+    }
+  )
+
+  if (!Channel?.length) {
+    return res
+    .status(400)
+    .send({
+      message:'channel does not exits'
+    })
+  }
+
+  return  res
+  .status(400)
+  .json(Channel[0])
+}
+
+const getUserVideo = async (req ,res)=>{
+
+  const id = req.user._id
+  if (!id) {
+    return res.send({
+      message:"User Id is Invalid"
+    })
+    .status(200)
+  }
+
+  const allVideos = await User.aggregate(
+    [{
+      $match: {
+        _id: id
+      }
+    },
+    {
+      $lookup : {
+          from : 'videos', 
+          localField : '_id', 
+          foreignField : 'owner', 
+          as : 'allVideos'
+       }
+    },
+    {
+      $addFields: {
+        userVideo: "$allVideos"
+      }
+    },
+    {
+      $project :{
+        title:1,
+        discription:1,
+        thumbnail:1,
+        userVideo:1
+       }
+    }]
+  )
+  
+  return res
+   .status(200)
+   .send(allVideos)
+}
 
 
 export {
@@ -259,4 +377,6 @@ export {
   getUserProfile,
   changeCurrentPassword,
   updateAccountDetails,
+  getUserChannelProfile,
+  getUserVideo,
 };

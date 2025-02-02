@@ -70,7 +70,7 @@ export default function UserOptions(props){
             <li className="flex w-full border-b-2 border-b-gray-400 p-2">
               <NavLink to={'/creator-page'}>
                 <button className="flex">
-                  <img  className='h-[2rem] w-[2rem] ml-2' src="https://res.cloudinary.com/dataghar/image/upload/v1738441042/video-recording_i2kuu7.svg" alt="" />
+                  <img  className='h-[2rem] w-[2rem] mr-2' src="https://res.cloudinary.com/dataghar/image/upload/v1738441042/video-recording_i2kuu7.svg" alt="" />
                   <p className="font-serif text-lg">Your Channel</p>
                 </button>
               </NavLink>

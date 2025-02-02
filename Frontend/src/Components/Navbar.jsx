@@ -73,7 +73,7 @@ const Navbar = (props) => {
 
         
               {loginButton?
-                <li className='border-2 border-gray-500 rounded-full w-full'>
+                <li className='border-2 border-gray-500 rounded-full w-[60%] flex justify-center '>
                   <NavLink className={``} to={"/register"}>
                     <div className="flex gap-2 items-center w-full">
                       <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png" alt="" />

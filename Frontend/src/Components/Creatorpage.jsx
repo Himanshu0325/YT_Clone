@@ -21,15 +21,28 @@ function Header({ title, toggleSidebar }) {
         </button>
         <h1 className="text-2xl font-bold">{title}</h1>
       </div>
-      <button className="bg-red-600 text-white px-4 py-2 rounded">Upload Video</button>
+      <button className='flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>Upload Video</button>
     </header>
   )
 }
 function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
   return (
-    <aside className={`bg-gray-800 text-white w-64 min-h-screen ${isOpen ? "block" : "hidden"} md:block`}>
+    <aside className={`bg-white text-white w-64 min-h-screen ${isOpen ? "block" : "hidden"} md:block shadow-2xl`}>
       <div className="p-4">
-        <h2 className="text-2xl font-semibold">Your Channel</h2>
+        <h2 className="text-2xl font-semibold text-black">Your Channel</h2>
+      </div>
+      <div className="p-4">
+        <div className="flex flex-col items-center">
+          <img
+            src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png"
+            alt="Profile"
+            className="w-24 h-24 rounded-full mr-4"
+          />
+          <div>
+            <h3 className="text-lg font-semibold text-black">John Doe</h3>
+            <p className="text-sm text-gray-800">@johndoe</p>
+          </div>
+        </div>
       </div>
       <nav>
         {navItems.map((item) => (
@@ -46,9 +59,9 @@ function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
           <NavLink to={item.path}>
             <button
             key={item.label}
-            className={`flex items-center px-4 py-2 mt-2 text-gray-100 w-full ${
-              activeItem === item.label ? "bg-gray-700" : "hover:bg-gray-700"
-            }`}
+            className={`flex items-center px-4 py-2 mt-2 text-black w-full ${
+              activeItem === item.label ? "bg-gray-200" : "hover:bg-gray-200"
+            } `}
             onClick={() => setActiveItem(item.label)}
           >
             <i className={`mr-3 fas fa-${item.icon}`}></i>
@@ -57,7 +70,7 @@ function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
           </NavLink>
         ))}
       </nav>
-    </aside>
+    </aside >
   )
 }
 function StatCard({ title, value }) {
