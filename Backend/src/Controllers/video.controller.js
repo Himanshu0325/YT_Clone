@@ -35,8 +35,27 @@ const createvideo = asyncHandler(async (req, res) => {
   
 });
 
-const getAllVideo = async (req ,res)=>{
-  
+const deleteVideo = async (req ,res)=>{
+  const {videoId } = req.body
+
+  if (!videoId) {
+    return res
+    .status(400)
+  }
+
+  await Video.findByIdAndDelete(videoId)
+  .then(deletedUser => {
+    if (deletedUser) {
+      console.log('User deleted successfully:');
+    } else {
+      console.log('User not found');
+    }
+  })
+  .catch(error => {
+    console.error('Error deleting user:', error);
+  });
+
 }
 
-export { createvideo };
+
+export { createvideo , deleteVideo};

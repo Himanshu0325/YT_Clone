@@ -76,7 +76,7 @@ const Navbar = (props) => {
                 <li className='border-2 border-gray-500 rounded-full w-[60%] flex justify-center '>
                   <NavLink className={``} to={"/register"}>
                     <div className="flex gap-2 items-center w-full">
-                      <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png" alt="" />
+                      <img className='h-[2rem] w-[2rem] rounded-full ' src="https://res.cloudinary.com/dataghar/image/upload/v1737839048/icons8-account-50_l8bpfi.png" alt="" />
                       <p>Login</p>
                     </div>
                   </NavLink>
@@ -102,7 +102,7 @@ const Navbar = (props) => {
                   e.preventDefault()
                   toggleUserOptions()
                 }}>
-                    <img className='h-[2.5rem] w-[2.5rem] ' src={avatar} alt="" />
+                    <img className='h-[2.5rem] w-[2.5rem] rounded-full ' src={avatar} alt="" />
               </NavLink>
               </li>
             </div>

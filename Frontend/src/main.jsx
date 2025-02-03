@@ -10,6 +10,7 @@ import ReAuth from "./Components/ReAuth.jsx"
 import UploadVideo from './Components/UploadVideo.jsx'
 import CreatorPage from './Components/Creatorpage.jsx'
 import VideoPage from './Components/VideoPage.jsx'
+import Dashboard from './Components/Dashboard.jsx'
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path:"/creator-page/video",
         element:<VideoPage/>
+      },
+      {
+        path:"/creator-page",
+        element:<Dashboard/>
       }
     ]
   }
