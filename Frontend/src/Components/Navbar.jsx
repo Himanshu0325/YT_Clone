@@ -2,6 +2,7 @@ import React, { useState , useEffect } from 'react';
 import { Menu, X, Search } from 'lucide-react';
 import { Link , NavLink } from 'react-router-dom';
 import getUserProfileData from '../Api/getUsersProfile';
+import axios from 'axios';
 
 const NavItem = ({ href, children }) => (
   <a href={href} className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">
@@ -9,10 +10,14 @@ const NavItem = ({ href, children }) => (
   </a>
 );
 
+
+
 const Navbar = (props) => {
   const [profileImg , setProfileImg]  = useState('/assets.')
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [filterBox , setFilterBox] = useState(false)
+  const [whatToSearch , setWhatToSearch] = useState(0)
   const loginButton = props.loginButton
 
   const toggleUserOptions = props.toggleUserOptions
@@ -20,13 +25,28 @@ const Navbar = (props) => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     // Implement search functionality here
-    console.log('Search query:', searchQuery);
+    console.log('Search query:', searchQuery , whatToSearch);
+
+    if (whatToSearch == 0) {
+      const searchData = async ()=>{
+        console.log(whatToSearch);
+        
+        await axios ({
+          method:'post',
+          url:'http://localhost:4000/api/v1/users/search-channel',
+          data:{searchQuery}
+        })
+        .then((res)=>{console.log(res);
+        })
+      }
+      searchData()
+    }
   };
 
   // const isUserOpen = props.isUserOpen
   const[avatar, setavatar] = useState("")
 
-  const data = async() =>{
+  const data = async(e) =>{
     const profileData = await props.profileData;
     const { avatar} = profileData;
     setavatar(avatar)
@@ -49,22 +69,41 @@ const Navbar = (props) => {
             </a>
           </div>
 
-          <div className="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
-            <div className="max-w-lg w-full lg:max-w-xs">
-              <form onSubmit={handleSearchSubmit} className="relative">
+          <div className="flex-1 flex items-center justify-center px-2  ">
+            <div className="max-w-lg w-full lg:max-w-xs flex items-center ">
+              <form onSubmit={handleSearchSubmit} className="relative flex">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-5 w-5 text-gray-400" />
                 </div>
                 <input
                   id="search"
                   name="search"
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Search"
                   type="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </form>
+
+              {/* this c0de is for filterbutton */}
+              <button className='h-5 w-5' onClick={() => {
+                setFilterBox(true)
+              }} >
+                <img className='h-full w-full' src="https://res.cloudinary.com/dataghar/image/upload/v1738672306/icons8-filter-50_yeslwz.png" alt="" />
+              </button>
+
+              {/* this code is for filterBox */}
+                <div className={`${filterBox?'visible':'hidden'} absolute bg-white h-[12%] w-[15%] rounded-lg flex flex-col border border-gray-300 top-[5%] right-[27%] `}>
+                  <button className='h-[50%] hover:bg-gray-300 rounded-lg ' onClick={()=>{
+                    setFilterBox(false)
+                    setWhatToSearch(0)
+                  }}>Channels</button>
+                  <button className='h-[50%] hover:bg-gray-300 rounded-lg'  onClick={()=>{
+                    setFilterBox(false)
+                    setWhatToSearch(1)
+                  }}>Videos</button>
+                </div>
             </div>
           </div>
 
