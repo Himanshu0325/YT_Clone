@@ -22,8 +22,8 @@ const generateAccessAndRefereshTokens = async (userId) => {
 };
 
 const registerUser = asyncHandler(async (req, res) => {
+
   const { fullName, email, userName, password } = req.body;
-  console.log('details : ', fullName, email, userName, req.body);
 
   if ([fullName, email, userName, password].some((field) => field?.trim() === "")) {
     throw new ApiError(400, 'All fields are required');
@@ -60,6 +60,7 @@ const registerUser = asyncHandler(async (req, res) => {
     password: password,
     avatar: avatar.url,
     coverImage: coverImage.url || "",
+    isChannel:false
   });
 
   const userCreated = await User.findById(user._id).select("-password -refreshToken");
@@ -233,6 +234,62 @@ const updateAccountDetails = async (req , res)=>{
     })}
 }
 
+const createChannel = async (req ,res)=>{
+  const user_id = req.user._id
+  const {channelName , channelDescription  } = req.body
+
+  if (!user_id) {
+    throw new ApiError(400, 'User not found');
+  }
+
+  if ([channelName , channelDescription].some((field) => field?.trim() === "")) {
+    throw new ApiError(400, 'All fields are required');
+  }
+
+  const coverImageLocalPath = req.file?.path;
+  
+  
+  if (!coverImageLocalPath) {
+    throw new ApiError(400, 'coverImage file is required');
+  }
+
+  console.log(coverImageLocalPath);
+  
+  const coverImage = await uploadOnCloudinary(coverImageLocalPath);
+  
+
+  const channel = await User.findByIdAndUpdate(user_id ,
+    {
+      $set:{
+        isChannel:true,
+        channelName:channelName,
+        channelDescription : channelDescription,
+        coverImage:coverImage.url
+      }
+    },
+    {
+      new:true
+    }
+  ).select('-password -refreshToken')
+
+  const IsChannel = req.user.isChannel
+
+  if (IsChannel) {
+    return res
+      .status(400)
+      .send({
+        message:'Channel Creation Failed'
+      })
+  }
+
+  return res
+  .status(200)
+  .send({
+    message:'Channel Created Successfully'
+  })
+}
+
+
 const getUserChannelProfile = async(req,res) =>{
   const {username} = req.params
 
@@ -388,6 +445,7 @@ export {
   getUserProfile,
   changeCurrentPassword,
   updateAccountDetails,
+  createChannel,
   getUserChannelProfile,
   getUserVideo,
   getUser

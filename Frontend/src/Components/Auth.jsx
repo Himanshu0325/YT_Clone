@@ -41,6 +41,9 @@ export default function AnimatedAuth() {
     })
       .then(function (response) {
         console.log(response);
+        const message = res.data.message;
+            setErrorBox(true)
+            setMessage(message)
       })
       .catch(function (error) {
         console.log("data transfer failed", error);
@@ -188,7 +191,7 @@ export default function AnimatedAuth() {
                 setForm({...form , avatar: e.target.files[0]})}}
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="coverPicture">Cover Picture</label>
             <input
               id="coverPicture"
@@ -198,7 +201,7 @@ export default function AnimatedAuth() {
               onChange={(e) =>{
                 setForm({...form , coverImage: e.target.files[0]})}}
             />
-          </div>
+          </div> */}
             </>
           )}
           <div>

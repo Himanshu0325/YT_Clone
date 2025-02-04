@@ -18,6 +18,7 @@ const Navbar = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBox , setFilterBox] = useState(false)
   const [whatToSearch , setWhatToSearch] = useState(0)
+  const [IsChannel , setIsChannel] = useState(false)
   const loginButton = props.loginButton
 
   const toggleUserOptions = props.toggleUserOptions
@@ -48,8 +49,9 @@ const Navbar = (props) => {
 
   const data = async(e) =>{
     const profileData = await props.profileData;
-    const { avatar} = profileData;
+    const { avatar ,isChannel} = profileData;
     setavatar(avatar)
+    setIsChannel(isChannel)
   }
   useEffect(() => {
     data()
@@ -110,7 +112,6 @@ const Navbar = (props) => {
           <div className="sm:ml-6 sm:flex sm:items-center w-[15%]">
             <ul className='text-l flex gap-4 w-full'>
 
-        
               {loginButton?
                 <li className='border-2 border-gray-500 rounded-full w-[60%] flex justify-center '>
                   <NavLink className={``} to={"/register"}>
@@ -127,8 +128,7 @@ const Navbar = (props) => {
               <li className='hover:text-gray-500 m-1 border-2 border-gray-500 rounded-full w-[60%] ' >
                 <NavLink className={({isActive})=>{
                 `${isActive?"text-gray-700":"text-black"} hover:text-gray-800`
-              }} to={"/upload-video"}>
-                {/* <img src="https://res.cloudinary.com/dataghar/image/upload/v1738348236/icons8-video-24_onrbfv.png" alt="" /> */}
+              }} to={IsChannel?'/upload-video':'/upload-video/create-channel'}>
                 <div className="flex gap-2 items-center w-full justify-center">
                       <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1738348236/icons8-video-24_onrbfv.png" alt="" />
                       <p>Create</p>

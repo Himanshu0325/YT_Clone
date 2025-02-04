@@ -37,7 +37,7 @@ export default function UserOptions(props){
     return (<>
       <div className={`border-2 border-gray-500 w-[20%] h-[65%] bg-white absolute top-16 right-4 rounded-md  p-4 ${isUserOpen?"visible":"hidden"}`}    >
         <div className="w-[50%] h-[30%] m-auto rounded-lg">
-          <img src={avatar} alt="" className="rounded-[50%] w-full h-full" />
+          <img src={avatar} alt="" className="rounded-[50%] w-full h-full bg-cover" />
         </div>
         <div className="text-center border-b-2 border-b-gray-400 m-4 ">
           <h1 className="font-serif text-xl">{fullName}</h1>

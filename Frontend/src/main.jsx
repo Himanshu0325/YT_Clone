@@ -11,6 +11,7 @@ import UploadVideo from './Components/UploadVideo.jsx'
 import CreatorPage from './Components/Creatorpage.jsx'
 import VideoPage from './Components/VideoPage.jsx'
 import Dashboard from './Components/Dashboard.jsx'
+import CreateChannel from './Components/CreateChannel.jsx'
 
 const router = createBrowserRouter([
   {
@@ -34,10 +35,10 @@ const router = createBrowserRouter([
         path: "/upload-video",
         element: <UploadVideo/>,
       },
-      // {
-      //   path: "/Digitalclock",
-      //   element: <Digitalclock/>,
-      // }
+      {
+        path: "/upload-video/create-channel",
+        element: <CreateChannel/>,
+      }
     ]
   },
   {

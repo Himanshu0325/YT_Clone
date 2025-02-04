@@ -27,8 +27,18 @@ const userSchema = new Schema(
       type: String,
       required : true,
     },
-    coberImage :{
+    coverImage :{
       type: String,
+    },
+    isChannel :{
+      type:Boolean,
+      required:true
+    },
+    channelName: {
+      type : String,
+    },
+    channelDescription:{
+      type:String
     },
     watchHistory:[
       {
