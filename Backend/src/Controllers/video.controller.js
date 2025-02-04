@@ -28,6 +28,13 @@ const createvideo = asyncHandler(async (req, res) => {
     duration: videoFile.duration,
   });
 
+  if (!video) {
+    return res
+      .send({
+        message: "Video not uploaded"
+      })
+  }
+
   return res
   .send({
     message:"Video Has Been uploaded successfully"

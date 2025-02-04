@@ -157,23 +157,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const getUserProfile = asyncHandler(async (req, res) => {
-  const{ accessToken }= req.body;
-    if (!accessToken) {
-      return res.json({
-        status: 401,
-        message: "Unauthorized request",
-        code:420,
-      });
-    }
-    const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-    const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
-    if (!user) {
-      return res.json({
-        status: 401,
-        message: "invalid access token ! User not Found"
-      });
-    }
-    // console.log(res);
+   const user = req.user
     
     return res.send({user});
 });
@@ -370,6 +354,32 @@ const getUserVideo = async (req ,res)=>{
    .send(allVideos)
 }
 
+const getUser = async (req , res)=>{
+  const {searchQuery} = req.body
+  console.log("search:*",searchQuery,req.body);
+  
+  if (!searchQuery) {
+    throw new ApiError(400,"search bar is empty")
+  }
+
+  try{
+    const user = await User.findOne({username : searchQuery}).select("-password -refreshToken");
+    console.log(user);
+    if (!user) {
+      
+      return res
+        .status(200)
+        .send({
+          message:'User Not found with given name'
+        })
+    }
+    return res
+      .status(200)
+      .send({user})
+  }catch{
+
+  }
+}
 
 export {
   registerUser,
@@ -380,4 +390,5 @@ export {
   updateAccountDetails,
   getUserChannelProfile,
   getUserVideo,
+  getUser
 };
