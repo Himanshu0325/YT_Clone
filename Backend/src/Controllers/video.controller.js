@@ -64,5 +64,46 @@ const deleteVideo = async (req ,res)=>{
 
 }
 
+const getAllVideos = async (req ,res)=>{
 
-export { createvideo , deleteVideo};
+  const videos = await Video.aggregate([
+    {
+    $lookup: {
+      from: 'users',
+      localField: 'owner',
+      foreignField: '_id',
+      as: 'user'
+    }
+    }, 
+    {
+      $project: {
+        title: 1,
+        discription: 1,
+        thumbnail: 1,
+        videoFile: 1,
+        views: 1,
+        'user.username': 1,
+        'user.avatar': 1,
+        'user.channelName': 1,
+      }
+    }
+  
+  ])
+
+  // const videos = await Video.find({}).populate('owner')
+  if (!videos) {
+    return res
+    .status(400)
+    .send({
+      message: "No videos found"
+    })
+  }
+  return res
+  .send({
+    videos
+  })
+  .status(200)
+}
+
+
+export { createvideo , deleteVideo , getAllVideos };

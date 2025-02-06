@@ -70,7 +70,7 @@ function App() {
          <span className={`fixed  text-2xl cursor-pointer ${isOpen?'left-[12%] top-4':'left-4 top-4'} transition-all duration-500`} onClick={toggleSidebar}>☰</span>
           <SideNavbar isOpen={isOpen}  />
         </div>
-        <div className={`${isOpen?"w-[85%]":"w-[95%]"} h-full transition-[width] duration-[500ms]`}>
+        <div className={`${isOpen?"w-[85%]":"w-[95%]"} h-full transition-[width] duration-[500ms] overflow-auto`}>
           <Navbar toggleUserOptions={toggleUserOptions} loginButton={loginButton} isUserOpen={isUserOpen} profileData={profileData} />
           <Outlet/>
 
