@@ -33,6 +33,7 @@ export default function AnimatedAuth() {
     formData.append("email", form.email);
     formData.append("password", form.password);
 
+    setErrorBox(!errorBox)
     axios({
       method: 'post',
       url: 'http://localhost:4000/api/v1/users/register',
@@ -42,7 +43,6 @@ export default function AnimatedAuth() {
       .then(function (response) {
         console.log(response);
         const message = res.data.message;
-            setErrorBox(true)
             setMessage(message)
       })
       .catch(function (error) {
@@ -81,7 +81,7 @@ export default function AnimatedAuth() {
         setCookie('accessToken', accessToken, options);
         setCookie('refreshToken', refreshToken, options );
         location.reload()
-        location.assign("http://localhost:5173/")
+        location.assign("/")
         }else{
           const data = async ()=>{
             const message = res.data.message;

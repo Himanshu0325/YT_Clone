@@ -46,7 +46,12 @@ const UploadVideo = () => {
       <div className="h-[10%] w-[100%] border-b-2 border-b-black flex items-center">
         <p className='text-black text-xl font-serif ml-4 flex'>Upload Video</p>
         <span className='justify-self-end' onClick={()=>{
-          location.assign('http://localhost:5173/')
+          const url = window.location.href
+          if (url=== '/upload-video'){
+            location.assign('/')
+          }{
+            location.assign('/creator-page/video')
+          }
         }}>✖</span>
       </div>
 
@@ -81,7 +86,12 @@ const UploadVideo = () => {
         <h1 className='text-xl font-medium mb-4'>{message}</h1>
         <button className='flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' onClick={()=>{
           setConfirmBox(!confirmBox)
-          location.assign('http://localhost:5173/')
+          const url = window.location.href
+          if (url=== '/upload-video'){
+            location.assign('/')
+          }{
+            location.assign('/creator-page/video')
+          }
         }}>Ok</button>
       </div>
     </div>

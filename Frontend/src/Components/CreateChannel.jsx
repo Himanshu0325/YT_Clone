@@ -20,7 +20,6 @@ const CreateChannel = () => {
     formData.append('coverImage',coverImage)
     formData.append('accessToken',accessToken)
 
-    console.log({ channelName, channelDescription, coverImage });
     await axios ({
       method:'post',
       url:'http://localhost:4000/api/v1/users/create-channel',
@@ -29,6 +28,7 @@ const CreateChannel = () => {
     })
     .then(()=>{
       console.log({ channelName, channelDescription, coverImage });
+      location.assign("/")
     })
 
     

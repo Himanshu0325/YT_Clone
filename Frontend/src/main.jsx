@@ -60,6 +60,10 @@ const router = createBrowserRouter([
       {
         path:"/creator-page",
         element:<Dashboard/>
+      },
+      {
+        path:"/creator-page/upload-video",
+        element:<UploadVideo/>
       }
     ]
   }

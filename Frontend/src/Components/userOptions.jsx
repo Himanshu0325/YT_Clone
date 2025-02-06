@@ -16,15 +16,17 @@ export default function UserOptions(props){
   const[userName, setUserName] = useState("UserName")
   const[fullName, setFullName] = useState("FullName")
   const[avatar, setavatar] = useState("")
+  const[Ischannel , setIscahnnel] = useState(false)
   
 
   const data = async() =>{
     const profileData = await props.profileData;
     
-    const { fullname,username , avatar , message} = profileData;
+    const { fullname,username , avatar , isChannel} = profileData;
     setFullName(fullname)
     setUserName(username)
     setavatar(avatar)
+    setIscahnnel(isChannel)
   }
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function UserOptions(props){
             <li className="flex w-full">
               <NavLink to={'/Reauth-Password'}>
               <button className="flex " onClick={()=>{
-                // toogleshowUpdatePass()
+                toggleUserOptions()
                 toogleshowUpdateScreen(true)
               }} >
               <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737838789/icons8-change-48_gryjrw.png" alt="" />
@@ -59,7 +61,7 @@ export default function UserOptions(props){
             <li className="flex w-full border-b-2 border-b-gray-400 p-2">
               <NavLink to={'/Reauth-Information'} >
               <button className="flex" onClick={()=>{
-                // toogleshowUpdatePass()
+                toggleUserOptions()
                 toogleshowUpdateScreen(false)
               }}>
                 <img className='h-[2rem] w-[2rem] ' src="https://res.cloudinary.com/dataghar/image/upload/v1737912893/change_account_nrehbl.png" alt="" />
@@ -68,10 +70,10 @@ export default function UserOptions(props){
               </NavLink>
             </li>
             <li className="flex w-full border-b-2 border-b-gray-400 p-2">
-              <NavLink to={'/creator-page'}>
-                <button className="flex">
+              <NavLink to={Ischannel?'/creator-page':'/upload-video/create-channel'}>
+                <button className="flex" onClick={()=>{toggleUserOptions()}}>
                   <img  className='h-[2rem] w-[2rem] mr-2' src="https://res.cloudinary.com/dataghar/image/upload/v1738441042/video-recording_i2kuu7.svg" alt="" />
-                  <p className="font-serif text-lg">Your Channel</p>
+                  <p className="font-serif text-lg">{Ischannel?'Your Channel':'Create Channel'}</p>
                 </button>
               </NavLink>
             </li>

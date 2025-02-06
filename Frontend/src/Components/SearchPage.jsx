@@ -1,69 +1,8 @@
-import React ,{useEffect, useState} from 'react';
-import { Cookies } from "react-cookie"
-import axios from 'axios';
+import React from 'react';
 
-
-
-
-const VideoPage = () => {
-
-  const [Data , setData] = useState([])
-  const cookie= new Cookies()
-  const [videoId , setVideoId ] = useState(0)
-  const [option , setOptions] = useState(false)
-  const length = Data.length
-
-
-
-  const data = async ()=>{
-  const accessToken = cookie.get('accessToken')
-    await axios({
-      method:'post',
-      url:'http://localhost:4000/api/v1/users/uservideos',
-      data: {accessToken}
-    })
-    .then((res)=>{
-  
-      setData(res.data[0].userVideo)
-      console.log(res.data[0].userVideo);
-      
-    })
-  }
-  
-  
-  useEffect(() => {
-    //used this to ensure getUserProfile function does not run evry time a function is render
-    let ignore = false;
-    
-    if (!ignore)  data()
-    return () => { ignore = true; }
-    },[]);
-  
-  const deleteVideo = async (videoId)=>{
-    console.log(videoId,'fun');
-    
-    await axios({
-      method:'post',
-      url:'http://localhost:4000/api/v1/video/delete-video',
-      data: { videoId }
-    }).then(
-      (res)=>{
-        console.log('video deleted ');
-        
-      }
-    )
-  }
-
-  
-    if(length === 0){
-      return(
-        <div className='flex justify-center items-center h-[80vh]'>
-          <h1 className='text-3xl'>No Videos Uploaded</h1>
-        </div>
-      )
-    }else{
-      return(
-        <div className=' w-full h-full bg-[#f5f5f5] overflow-scroll'>
+const SearchPage = () => {
+  return (
+    <div className=' w-full h-full bg-[#f5f5f5] overflow-scroll'>
       <div className="flex flex-col gap-4 pt-8  pl-4  ">
       {
           Data.map((video, index) => (
@@ -96,10 +35,7 @@ const VideoPage = () => {
         }
       </div>
     </div>
-      )
-    }
-    
-  
+  );
 };
 
-export default VideoPage;
+export default SearchPage;

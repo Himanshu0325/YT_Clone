@@ -21,11 +21,11 @@ const Dashboard = () => {
     const data = async(e) =>{
       const profileData = await getUserProfileData();
     
-      const {fullname , username , avatar , CoverImg} = profileData
+      const {fullname , username , avatar , coverImage} = profileData
       setFullName(fullname)
       setUserName(username)
       setAvatar(avatar)
-      setCoverImg(CoverImg)
+      setCoverImg(coverImage)
     }
     data()
 
@@ -33,7 +33,7 @@ const Dashboard = () => {
 
     <div className="bg-white p-4 rounded-lg shadow flex flex-col  h-[27rem] mb-16 ">
       <div className="border-2 h-[17rem] w-full  rounded-3xl">
-        <img className="h-full w-full rounded-3xl" src={coverImg ? coverImg : 'https://res.cloudinary.com/dataghar/image/upload/v1738521825/rosebanner_iqqfcl.jpg'} alt="" />
+        <img className="h-full w-full rounded-3xl" src={coverImg} alt="" />
       </div>
 
       <div className="flex flex-shrink-0 h-[8rem] items-center ">

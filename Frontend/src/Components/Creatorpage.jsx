@@ -20,7 +20,9 @@ function Header({ title, toggleSidebar }) {
         </button>
         <h1 className="text-2xl font-bold">{title}</h1>
       </div>
+      <NavLink to='/creator-page/upload-video'>
       <button className='flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>Upload Video</button>
+      </NavLink>
     </header>
   )
 }
