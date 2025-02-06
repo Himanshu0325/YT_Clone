@@ -12,6 +12,7 @@ import CreatorPage from './Components/Creatorpage.jsx'
 import VideoPage from './Components/VideoPage.jsx'
 import Dashboard from './Components/Dashboard.jsx'
 import CreateChannel from './Components/CreateChannel.jsx'
+import SearchPage from './Components/SearchPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/upload-video/create-channel",
         element: <CreateChannel/>,
+      },
+      {
+        path:'/search-page',
+        element:<SearchPage/>
       }
     ]
   },

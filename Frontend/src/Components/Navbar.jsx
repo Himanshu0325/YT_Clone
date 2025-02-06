@@ -3,6 +3,9 @@ import { Menu, X, Search } from 'lucide-react';
 import { Link , NavLink } from 'react-router-dom';
 import getUserProfileData from '../Api/getUsersProfile';
 import axios from 'axios';
+import SearchPage from './SearchPage';
+import { useNavigate } from 'react-router-dom';
+
 
 const NavItem = ({ href, children }) => (
   <a href={href} className="text-gray-700 hover:text-indigo-600 px-3 py-2 text-sm font-medium">
@@ -19,29 +22,21 @@ const Navbar = (props) => {
   const [filterBox , setFilterBox] = useState(false)
   const [whatToSearch , setWhatToSearch] = useState(0)
   const [IsChannel , setIsChannel] = useState(false)
+  const navigate = useNavigate();
   const loginButton = props.loginButton
 
   const toggleUserOptions = props.toggleUserOptions
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    
+    // history.pushState({}, '', '/search-page');
+    navigate(`/search-page?q=${searchQuery}&whatToSearch=${whatToSearch}`);
+
     // Implement search functionality here
     console.log('Search query:', searchQuery , whatToSearch);
 
-    if (whatToSearch == 0) {
-      const searchData = async ()=>{
-        console.log(whatToSearch);
-        
-        await axios ({
-          method:'post',
-          url:'http://localhost:4000/api/v1/users/search-channel',
-          data:{searchQuery}
-        })
-        .then((res)=>{console.log(res);
-        })
-      }
-      searchData()
-    }
+    
   };
 
   // const isUserOpen = props.isUserOpen
@@ -197,6 +192,7 @@ const Navbar = (props) => {
           </div>
         </div>
       )}
+      
     </nav>
   );
 };

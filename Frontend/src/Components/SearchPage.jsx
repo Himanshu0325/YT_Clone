@@ -1,38 +1,64 @@
-import React from 'react';
+import React ,{useEffect , useState} from 'react';
+import Navbar from './Navbar';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const SearchPage = () => {
+  const query = useQuery();
+  const searchQuery= query.get('q');
+  const whatToSearch = query.get('whatToSearch');
+  const [Data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let response;
+        if (whatToSearch === '0') {
+          response = await axios.post('http://localhost:4000/api/v1/users/search-channel', { searchQuery });
+          
+          
+        } else if (whatToSearch === '1') {
+          response = await axios.post('http://localhost:4000/api/v1/videos/search-video', { searchQuery });
+        }
+        setData([response.data.user]);
+        console.log(response.data.user);
+        
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    };
+
+    fetchData();
+  }, [searchQuery, whatToSearch]);
+
+  
   return (
     <div className=' w-full h-full bg-[#f5f5f5] overflow-scroll'>
       <div className="flex flex-col gap-4 pt-8  pl-4  ">
       {
-          Data.map((video, index) => (
-            <div key={index} className="bg-white rounded-lg shadow overflow-hidden flex h-[20rem] relative">
-              <div className="w-[50%] h-full aspect-h-9 bg-gray-200">
-                <img className='h-full w-full bg-cover' src={video.thumbnail} alt="" />
-              </div>
-              <div className="p-4 flex flex-col">
-                <h3 className="font-semibold text-lg text-black">{video.title}</h3>
-                <p className="text-sm text-gray-500 pb-8">
-                  {video.views} views • Published On :{new Date(video.createdAt).getDate()}-{new Date(video.createdAt).getMonth()}-{new Date(video.createdAt).getFullYear()}
-                </p>
-                <p>{video.discription}</p>
-              </div>
-              <span className='absolute top-0 right-0 p-4 ' key={index} id={video._id} onClick={(e)=>{
-                e.target.addEventListener('click', (e)=>{
-                  setVideoId(e.target.id)
-                  setOptions(true)
-                })
-              }}>:</span>
-              <div className={`absolute border-2 border-black h-[40%] w-[15%] m-4 top-0 right-0 ${option?'visible':'hidden'} rounded-3xl flex flex-col `}>
-                <button className='py-2 px-4  rounded-3xl hover:bg-[#f5f5f5]' onClick={()=>{
-                  deleteVideo(videoId)
-                  location.assign('http://localhost:5173/creator-page/video')
-                  }}>Delete</button>
-                <button className='py-2 px-4  rounded-3xl hover:bg-[#f5f5f5]' onClick={()=>setOptions(false)}>Close</button>
-              </div>
+        Data.map((data) => {
+          return (
+            <div className="border-2 border-black h-[15rem] rounded-3xl flex flex-row items-center justify-between p-4">
+              <div key={data._id} className='flex flex-row gap-4 h-full w-[20%]'>
+              <img src={data.avatar?data.avatar:""} alt="channel" className='w-full h-full rounded-full'/>
             </div>
-          ))
-        }
+
+            <div key={data.id} className="h-full w-[70%] flex flex-col gap-2 justify-center pl-6">
+              <h1 className='text-3xl font-serif font-bold'>{data.channelName}</h1>
+              <h3 className='text-xl font-serif font-bold text-gray-700'>{data.username}</h3>
+              {/* <p>{data.channelDescription}</p> */}
+            </div>
+            <div className="">
+              <button className='bg-[#f5f5f5] border border-black rounded-lg py-3 px-8 font-bold font-serif text-xl hover:bg-[#b2b2b2]'>Subscribe</button>
+            </div>
+            </div>
+        );
+      }
+      )}
       </div>
     </div>
   );

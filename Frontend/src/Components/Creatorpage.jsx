@@ -5,8 +5,8 @@ import axios from 'axios';
 import getUserProfileData from "../Api/getUsersProfile";
 
 const navItems = [
-  { icon: "home", label: "Dashboard", path:"/creator-page" },
-  { icon: "video", label: "Content" , path:"/creator-page/video" , logic : ()=>{ } },
+  { icon: "home", label: "Dashboard", path:"/creator-page" , url :"/creator-page"},
+  { icon: "video", label: "Content" , path:"/creator-page/video" , url:'/creator-page/video' },
   { icon: "bar-chart-2", label: "Analytics" },
   { icon: "settings", label: "Settings" },
 ]
@@ -26,7 +26,7 @@ function Header({ title, toggleSidebar }) {
     </header>
   )
 }
-function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
+function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen , bookmark , setBookmark}) {
   return (
     <aside className={`bg-white text-white w-64 min-h-screen ${isOpen ? "block" : "hidden"} md:block shadow-2xl`}>
       <div className="p-4">
@@ -39,9 +39,10 @@ function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
             <button
             key={item.label}
             className={`flex items-center px-4 py-2 mt-2 text-black w-full ${
-              activeItem === item.label ? "bg-gray-200" : "hover:bg-gray-200"
+              bookmark === item.url ? "bg-gray-200" : "hover:bg-gray-200"
             } `}
             onClick={() => {
+              setBookmark(item.url)
               setActiveItem(item.label)
               item.logic()
             } }
@@ -62,6 +63,7 @@ function Sidebar({ navItems, activeItem, setActiveItem, isOpen, setIsOpen }) {
 
 function CreatorDashboard() {
   const [activeItem, setActiveItem] = useState("Dashboard")
+  const [bookmark, setBookmark] = useState("Dashboard")
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
 
@@ -73,6 +75,8 @@ function CreatorDashboard() {
         setActiveItem={setActiveItem}
         isOpen={sidebarOpen}
         setIsOpen={setSidebarOpen}
+        bookmark={bookmark}
+        setBookmark={setBookmark}
       />
 
       <div className="flex-1 overflow-hidden">
