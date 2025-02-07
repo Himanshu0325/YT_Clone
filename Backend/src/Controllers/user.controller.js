@@ -4,6 +4,7 @@ import { User } from "../Models/user.model.js";
 import { uploadOnCloudinary } from "../Utils/Cloudinary.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose";
 
 const generateAccessAndRefereshTokens = async (userId) => {
   try {
@@ -69,7 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong! User was not created");
   }
 
-  return res.status(201).json(
+  return res.status(200).json(
     new ApiResponse(200, userCreated, "User registered successfully")
   );
 });
@@ -379,7 +380,7 @@ const getUserVideo = async (req ,res)=>{
   const allVideos = await User.aggregate(
     [{
       $match: {
-        _id: id
+        _id: new mongoose.Types.ObjectId(id)
       }
     },
     {

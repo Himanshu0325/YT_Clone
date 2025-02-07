@@ -9,6 +9,7 @@ export default function AnimatedAuth() {
   const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
   const[message, setMessage] = useState("")
   const [errorBox , setErrorBox] = useState(false)
+  const [buttonText , setButtonText] = useState('')
   const [form , setForm] = useState({
     fullName : "",
     userName:"",
@@ -34,19 +35,21 @@ export default function AnimatedAuth() {
     formData.append("password", form.password);
 
     setErrorBox(!errorBox)
-    axios({
+     await axios({
       method: 'post',
       url: 'http://localhost:4000/api/v1/users/register',
       data: formData,
       headers: { 'Content-Type': 'multipart/form-data' }
     })
-      .then(function (response) {
+      .then((response) =>{
         console.log(response);
-        const message = res.data.message;
-            setMessage(message)
+        const message = response.data.message;
+        setMessage(message)
+        setButtonText('Login')
       })
       .catch(function (error) {
         console.log("data transfer failed", error);
+        setButtonText('Try Again')
       });
   };
 
@@ -87,6 +90,7 @@ export default function AnimatedAuth() {
             const message = res.data.message;
             setErrorBox(!errorBox)
             setMessage(message)
+            setButtonText("OK")
           }
           data()
         }
@@ -252,7 +256,7 @@ export default function AnimatedAuth() {
         <button className='flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' onClick={()=>{
           setErrorBox(!errorBox)
         }}>
-          Try Again
+          {buttonText}
         </button>
       </div>
     </div>

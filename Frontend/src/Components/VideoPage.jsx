@@ -69,7 +69,7 @@ const VideoPage = () => {
           Data.map((video, index) => (
             <div key={index} className="bg-white rounded-lg shadow overflow-hidden flex h-[20rem] relative">
               <div className="w-[50%] h-full aspect-h-9 bg-gray-200">
-                <img className='h-full w-full bg-cover' src={video.thumbnail} alt="" />
+                <img className='h-full w-full bg-cover rounded-lg' src={video.thumbnail} alt="" />
               </div>
               <div className="p-4 flex flex-col">
                 <h3 className="font-semibold text-lg text-black">{video.title}</h3>

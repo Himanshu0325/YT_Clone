@@ -10,7 +10,7 @@ const PlayVideo = () =>{
   
   const value = useData();
   const vid= value.get('q');
-  const [Data , setData]= useState([])
+  const [video , setData]= useState([])
   const [user, setUser]= useState([])
  
 
@@ -39,11 +39,11 @@ const PlayVideo = () =>{
       <div className=" w-[70%] h-[88%] m-4 overflow-scroll ">
 
         <div className="w-full  h-[70%] rounded-3xl">
-          <video className="w-full h-full rounded-3xl" src={Data.videoFile} controls ></video>
+          <video className="w-full h-full rounded-3xl" src={video.videoFile} controls ></video>
         </div>
 
         <div className="w-full p-4 ">
-          <p className="w-full text-2xl font-serif font-bold">{Data.title}</p>
+          <p className="w-full text-2xl font-serif font-bold">{video.title}</p>
            <div className="w-full flex justify-between">
              <div className="flex h-[60%]  ">
                <img className="h-[48px] w-[48px] rounded-full " src={user.avatar} alt="" />
@@ -67,9 +67,9 @@ const PlayVideo = () =>{
         </div>
 
         <details  >
-          <summary> 0 views . 2 days ago </summary>
+          <summary> {video.views} views • Published On :{new Date(video.createdAt).getDate()}-{new Date(video.createdAt).getMonth()}-{new Date(video.createdAt).getFullYear()} </summary>
           <p>
-          {Data.discription          }
+          {video.discription }
           </p>
         </details>
       </div>

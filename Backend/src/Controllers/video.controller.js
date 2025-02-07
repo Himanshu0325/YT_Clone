@@ -166,5 +166,25 @@ const findVideo = async (req , res) =>{
   .status(200)
 }
 
+const updateViews = async (req , res)=>{
+  const {vid} = req.body
+  if (!vid) {
+    return res.send({
+      message:"User Id is Invalid"
+    })
+    .status(200)
+  }
 
-export { createvideo , deleteVideo , getAllVideos , findVideo};
+  const video = await Video.findById(vid)
+  const view = video.views
+  
+  video.views = view+1
+  await video.save({validateBeforeSave:false})
+  
+
+  return res.status(200)
+  
+}
+
+
+export { createvideo , deleteVideo , getAllVideos , findVideo , updateViews};
