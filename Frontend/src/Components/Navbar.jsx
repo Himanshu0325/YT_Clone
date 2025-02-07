@@ -29,14 +29,8 @@ const Navbar = (props) => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    
-    // history.pushState({}, '', '/search-page');
+    //transfer data to searchpage via url
     navigate(`/search-page?q=${searchQuery}&whatToSearch=${whatToSearch}`);
-
-    // Implement search functionality here
-    console.log('Search query:', searchQuery , whatToSearch);
-
-    
   };
 
   // const isUserOpen = props.isUserOpen

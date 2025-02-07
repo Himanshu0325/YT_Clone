@@ -2,16 +2,24 @@ import axios from "axios";
 import SideNavbar from "./sideNavbar";
 import UserOptions from "./userOptions.jsx";
 import { useEffect , useState } from "react";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Hero (props){
-
+  
   const isUserOpen = props.isUserOpen
   const[Data , setData] = useState([])
+  // const[vid , setVId] = useState('')
+  const navigate = useNavigate();
+
+  const sendingData = (vid)=>{
+    navigate(`/play-video?q=${vid}`);
+  }
   
   const data = async ()=>{
     await axios({
       method:'get',
-      url:'http://localhost:4000/api/v1/video/get-video'
+      url:'http://localhost:4000/api/v1/video/get-all-videos'
     })
     .then((res)=>{
         console.log(res.data.videos);
@@ -30,10 +38,16 @@ export default function Hero (props){
         {
           Data.map(( video , index) => {
             return (
-              <div key={index} className=" h-[21rem] w-full rounded-xl  " onClick={()=>{console.log(location.assign('/play-video'));
+              <div key={index} id={video.id} className=" h-[21rem] w-full rounded-xl  " onClick={(e)=>{
+                // console.log(location.assign('/play-video'));
+                e.preventDefault()
+                // setVId(e.target.id)
+                console.log(e.target.id);
+                
+                sendingData(e.target.id)
               }}>
                 <div className="h-[75%] w-full rounded-xl  border border-black ">
-                  <img className="h-full w-full bg-cover rounded-xl " src={video.thumbnail} alt="" />
+                  <img className="h-full w-full bg-cover rounded-xl " id={video._id} src={video.thumbnail} alt="" />
                 </div>
                 <div className="h-[24%] w-full pt-2">
                   <div className="w-full h-[60%]  flex ">

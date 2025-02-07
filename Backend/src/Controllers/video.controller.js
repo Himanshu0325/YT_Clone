@@ -3,6 +3,7 @@ import { ApiError } from "../Utils/ApiError.js";
 import { Video } from "../Models/video.model.js";
 import { uploadOnCloudinary } from "../Utils/Cloudinary.js";
 import { ApiResponse } from "../Utils/ApiResponse.js";
+import mongoose from "mongoose";
 
 const createvideo = asyncHandler(async (req, res) => {
   const { title, discription } = req.body;
@@ -83,6 +84,7 @@ const getAllVideos = async (req ,res)=>{
         videoFile: 1,
         views: 1,
         createdAt:1,
+        _id:1,
         'user.username': 1,
         'user.avatar': 1,
         'user.channelName': 1,
@@ -106,5 +108,63 @@ const getAllVideos = async (req ,res)=>{
   .status(200)
 }
 
+const findVideo = async (req , res) =>{
+  const {vid} = req.body
 
-export { createvideo , deleteVideo , getAllVideos };
+  if (!vid) {
+    return res.send({
+      message:"User Id is Invalid"
+    })
+    .status(200)
+  }
+  
+  const videos = await Video.aggregate(
+   [
+    {
+      $match:{
+        _id : new mongoose.Types.ObjectId(vid)
+
+      }
+    },
+    {
+      $lookup:{
+        from: 'users',
+        localField: 'owner',
+        foreignField: '_id',
+        as: 'user'
+    }
+    }, 
+    {
+      $project: {
+        title: 1,
+        discription: 1,
+        thumbnail: 1,
+        videoFile: 1,
+        views: 1,
+        createdAt:1,
+        _id:1,
+        'user.username': 1,
+        'user.avatar': 1,
+        'user.channelName': 1,
+      }
+    }
+  
+  ]
+  )
+
+  if (!videos) {
+    return res
+    .status(400)
+    .send({
+      message: "No videos found"
+    })
+  }
+  return res
+  .send({
+    videos
+  })
+  .status(200)
+}
+
+
+export { createvideo , deleteVideo , getAllVideos , findVideo};

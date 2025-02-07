@@ -3,16 +3,19 @@ import Navbar from './Navbar';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 
+
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
+
+
 
 const SearchPage = () => {
   const query = useQuery();
   const searchQuery= query.get('q');
   const whatToSearch = query.get('whatToSearch');
   const [Data, setData] = useState([]);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
