@@ -13,6 +13,7 @@ import VideoPage from './Components/VideoPage.jsx'
 import Dashboard from './Components/Dashboard.jsx'
 import CreateChannel from './Components/CreateChannel.jsx'
 import SearchPage from './Components/SearchPage.jsx'
+import PlayVideo from './Components/PlayVideo.jsx'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path:'/search-page',
         element:<SearchPage/>
+      },
+      {
+        path:'/play-video',
+        element:<PlayVideo/>
       }
     ]
   },

@@ -82,6 +82,7 @@ const getAllVideos = async (req ,res)=>{
         thumbnail: 1,
         videoFile: 1,
         views: 1,
+        createdAt:1,
         'user.username': 1,
         'user.avatar': 1,
         'user.channelName': 1,
