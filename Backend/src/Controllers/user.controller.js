@@ -414,7 +414,7 @@ const getUserVideo = async (req ,res)=>{
 
 const getUser = async (req , res)=>{
   const {searchQuery} = req.body
-  console.log("search:*",searchQuery,req.body);
+  
   
   if (!searchQuery) {
     throw new ApiError(400,"search bar is empty")
@@ -422,18 +422,21 @@ const getUser = async (req , res)=>{
 
   try{
     const user = await User.findOne({username : searchQuery}).select("-password -refreshToken");
-    console.log(user);
-    if (!user) {
-      
-      return res
+    if (user === null) {
+       return res
         .status(200)
         .send({
+          code:400,
           message:'User Not found with given name'
         })
     }
     return res
       .status(200)
-      .send({user})
+      .send({
+        code:200,
+        message:'User Found',
+        user:user
+      })
   }catch{
 
   }

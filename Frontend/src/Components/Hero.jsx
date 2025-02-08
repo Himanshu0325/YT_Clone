@@ -12,8 +12,8 @@ export default function Hero(props) {
   const[list , setList] = useState(false)
   const navigate = useNavigate();
 
-  const sendingData = (vid) => {
-    navigate(`/play-video?q=${vid}`);
+  const sendingData = (vid , un) => {
+    navigate(`/play-video?q=${vid}&username=${un}`);
   }
 
   const data = async () => {
@@ -39,6 +39,8 @@ export default function Hero(props) {
       })
   }
 
+  
+
   useEffect(() => {
     data()
   }, [])
@@ -54,12 +56,11 @@ export default function Hero(props) {
                   // console.log(location.assign('/play-video'));
                   e.preventDefault()
                   // setVId(e.target.id)
-                  console.log(e.target.id);
 
                   updateViews(e.target.id)
-                  sendingData(e.target.id)
+                  sendingData(e.target.id , video.user[0].username )
                 }}>
-                  <img className="h-full w-full bg-cover rounded-xl " id={video._id} src={video.thumbnail} alt="" />
+                  <img className="h-full w-full bg-cover rounded-xl " value={index} id={video._id} src={video.thumbnail} alt="*" />
                 </div>
                 <div className="h-[24%] w-full pt-2">
                   <div className="w-full h-[60%]  flex relative ">

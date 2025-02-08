@@ -93,7 +93,7 @@ const getAllVideos = async (req ,res)=>{
   
   ])
 
-  // const videos = await Video.find({}).populate('owner')
+  
   if (!videos) {
     return res
     .status(400)
@@ -181,7 +181,7 @@ const updateViews = async (req , res)=>{
   video.views = view+1
   await video.save({validateBeforeSave:false})
   
-
+  
   return res.status(200)
   
 }

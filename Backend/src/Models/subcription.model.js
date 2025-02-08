@@ -9,7 +9,7 @@ const SubscriptionSchema = new Schema({
     type: Schema.Types.ObjectId, //to whom subcriber is subscribing
     ref: "User"
   }
-},{timestamps});
+},{timestamps : true});
 
 export const Subscription = mongoose.model('Subscription', SubscriptionSchema);
 
