@@ -292,7 +292,10 @@ const createChannel = async (req ,res)=>{
 
 
 const getUserChannelProfile = async(req,res) =>{
-  const {username} = req.params
+  const {username} = req.body
+  const user_id = req.user._id
+  console.log(username,user_id," am here");
+  
 
   if (!username?.trim()) {
     return res.send({
@@ -302,56 +305,66 @@ const getUserChannelProfile = async(req,res) =>{
   }
 
   const Channel = await User.aggregate(
-    {
+    [{
       $match: {
-        username: username?.toLowerCase()
+        username: username
       }
     },
-    {
-      $lookup: {
-        from: "subscriptions",
-        localField: "_id",
-        foreignFiled:"channel",
-        as : "subscribers"
-      }
-    },
-    {
-      $lookup:{
-        from: "subscriptions",
-        localField: "_id",
-        foreignFiled:"subscriber",
-        as : "subscribedToo"
-      }
-    },
-    {
-      $addFields:{
-
-          subscribersCount:{
-          $size: "$subscribers"
-          },
-          channelssubscribedToo:{
-            $size : "$subscribedToo"
-          },
-          isSubscribed: {
-            $cond: {
-              if: {$in : [req.user?._id , "$subscribers.subscriber"]},
-              then: true,
-              else: false,
+      {
+        $lookup: {
+          from: "subscriptions",
+          localField: "_id",
+          foreignField: "channel",
+          as: "subscribers"
+        }
+      },
+      {
+        $lookup: {
+          from: "subscriptions",
+          localField: "_id",
+          foreignField: "subscriber",
+          as: "subscribedTo"
+        }
+      },
+      {
+        $lookup : {
+            from : 'videos', 
+            localField : '_id', 
+            foreignField : 'owner', 
+            as : 'allVideos'
+         }
+      },
+      {
+        $addFields: {
+            subscribersCount: {
+                $size: "$subscribers"
+            },
+            channelsSubscribedToCount: {
+                $size: "$subscribedTo"
+            },
+            isSubscribed: {
+                $cond: {
+                    if: {$in: [user_id, "$subscribers.subscriber"]},
+                    then: true,
+                    else: false
+                }
             }
-          }
-      }
+        }
     },
-    {
-      $project: {
-        fullName:1,
-        username:1,
-        subscribersCount:1,
-        channelssubscribedToo:1,
-        isSubscribed:1,
-        avatar:1,
-        coverImage:1,
-      }
-    }
+      {
+        $project: {
+          fullName: 1,
+          username: 1,
+          subscribersCount: 1,
+          channelssubscribedToo: 1,
+          isSubscribed: 1,
+          avatar: 1,
+          coverImage: 1,
+          channelName:1,
+          channelDescription:1,
+          allVideos:1
+        }
+      }]
   )
 
   if (!Channel?.length) {
@@ -362,8 +375,10 @@ const getUserChannelProfile = async(req,res) =>{
     })
   }
 
+  console.log(Channel);
+  
   return  res
-  .status(400)
+  .status(200)
   .json(Channel[0])
 }
 
@@ -441,6 +456,8 @@ const getUser = async (req , res)=>{
 
   }
 }
+
+
 
 export {
   registerUser,

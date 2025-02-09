@@ -26,6 +26,8 @@ const sub = await Subscription.create(
     channel: channel[0]._id
   }
 )
+  console.log("Successfilly Subscribed");
+  
   
 }
 

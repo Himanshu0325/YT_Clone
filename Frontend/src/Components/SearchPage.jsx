@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from './Navbar';
 import { data, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { Cookies } from 'react-cookie';
 
 
 const useQuery = () => {
@@ -16,35 +17,73 @@ const SearchPage = () => {
   const whatToSearch = query.get('whatToSearch');
   const [Data, setData] = useState([]);
   const [resultScreen , setresultScreen] = useState(false)
+  const [channel , setChannel] = useState([])
+  const [isSubscribed , setIsSubscribed] = useState(false)
+  const cookie = new Cookies()
+
+
+  const fetchData = async () => {
+    try {
+      let response;
+      if (whatToSearch === '0') {
+        response = await axios.post('http://localhost:4000/api/v1/users/search-channel', { searchQuery });
+
+        const code = response.data.code 
+        if (code === 400) {
+          setresultScreen(true)
+        }else if (code === 200) {
+          setresultScreen(false)
+        }
+      } else if (whatToSearch === '1') {
+        response = await axios.post('http://localhost:4000/api/v1/videos/search-video', { searchQuery });
+      }
+      setData([response.data.user]);
+      console.log(response);
+
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
+  };
+
+  const FetchChannelData = async () => {
+    const accessToken = cookie.get("accessToken")
+    const username = searchQuery
+    await axios({
+      method: "post",
+      url: 'http://localhost:4000/api/v1/users/get-channel-profile',
+      data: { username, accessToken }
+    })
+      .then((res) => {
+        setChannel(res.data)
+        if (res.data.isSubscribed) {
+          setIsSubscribed(true)
+        }
+      })
+  }
+
+
+  const Subscribe = (un) =>{
+    axios({
+      method:'post',
+      url:'http://localhost:4000/api/v1/subscription/subscribe',
+      data:{
+        // id:user._id,
+        accessToken:cookie.get('accessToken'),
+        username:un
+      }
+    })
+    .then((res)=>{
+      console.log(res);
+    })
+  }
+
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let response;
-        if (whatToSearch === '0') {
-          response = await axios.post('http://localhost:4000/api/v1/users/search-channel', { searchQuery });
-
-          const code = response.data.code 
-          if (code === 400) {
-            setresultScreen(true)
-          }else if (code === 200) {
-            setresultScreen(false)
-          }
-        } else if (whatToSearch === '1') {
-          response = await axios.post('http://localhost:4000/api/v1/videos/search-video', { searchQuery });
-        }
-        setData([response.data.user]);
-        console.log(response);
-
-      } catch (error) {
-        console.error('Error fetching search results:', error);
-      }
-    };
-
+    FetchChannelData();
     fetchData();
-  }, [searchQuery, whatToSearch]);
+  }, [searchQuery]);
 
-
+  console.log(isSubscribed);
   return (
     <div className=' w-full h-full bg-[#f5f5f5] overflow-scroll'>
       { resultScreen?
@@ -69,7 +108,16 @@ const SearchPage = () => {
                   {/* <p>{data.channelDescription}</p> */}
                 </div>
                 <div className="">
-                  <button className='bg-[#f5f5f5] border border-black rounded-lg py-3 px-8 font-bold font-serif text-xl hover:bg-[#b2b2b2]'>Subscribe</button>
+                  <button className='"flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white text-center  bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"'
+                   onClick={(e)=>{
+                    e.preventDefault()
+                    if (!isSubscribed) {
+                      Subscribe(data.username)
+                      location.reload()
+                    }else{
+                      return 0
+                    }
+                   }}>{isSubscribed?'Subscribed':'Subscribe'}</button>
                 </div>
               </div>
             );

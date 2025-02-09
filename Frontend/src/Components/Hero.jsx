@@ -3,6 +3,7 @@ import SideNavbar from "./sideNavbar";
 import UserOptions from "./userOptions.jsx";
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import updateViews from "../Api/UpdateViews.js";
 
 
 export default function Hero(props) {
@@ -14,6 +15,10 @@ export default function Hero(props) {
 
   const sendingData = (vid , un) => {
     navigate(`/play-video?q=${vid}&username=${un}`);
+  }
+
+  const sendingChannelData = (un)=>{
+    navigate(`/channel-page?q=${un}`);
   }
 
   const data = async () => {
@@ -28,16 +33,7 @@ export default function Hero(props) {
       })
   }
 
-  const updateViews = async (vid) => {
-    await axios({
-      method: 'post',
-      url: 'http://localhost:4000/api/v1/video/update-views',
-      data:{vid}
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-  }
+  
 
   
 
@@ -63,7 +59,9 @@ export default function Hero(props) {
                   <img className="h-full w-full bg-cover rounded-xl " value={index} id={video._id} src={video.thumbnail} alt="*" />
                 </div>
                 <div className="h-[24%] w-full pt-2">
-                  <div className="w-full h-[60%]  flex relative ">
+                  <div className="w-full h-[60%]  flex relative " onClick={(e)=>{
+                    sendingChannelData(video.user[0].username)
+                  }}>
                     <img className="h-full w-[10%] rounded-full mr-4" src={video.user[0].avatar} alt="" />
                     <div className="">
                       <h2 className="font-bold text-2xl">{video.title}</h2>

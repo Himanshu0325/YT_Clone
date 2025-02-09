@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { registerUser, verifyUser,logoutUser, getUserProfile , changeCurrentPassword ,updateAccountDetails, getUserVideo, getUser, createChannel} from "../Controllers/user.controller.js";
+import { registerUser, verifyUser,logoutUser, getUserProfile , changeCurrentPassword ,updateAccountDetails, getUserVideo, getUser, createChannel, getUserChannelProfile} from "../Controllers/user.controller.js";
 import { verifyJWT } from "../Middlewares/Auth.middleware.js";
 import { upload } from "../Middlewares/multer.middleware.js";
 
@@ -32,5 +32,7 @@ router.route('/create-channel').post(upload.single('coverImage') , verifyJWT , c
 router.route("/uservideos").post(verifyJWT,  getUserVideo)
 
 router.route("/search-channel").post(getUser)
+
+router.route("/get-channel-profile").post(verifyJWT,getUserChannelProfile)
 
 export default router;
